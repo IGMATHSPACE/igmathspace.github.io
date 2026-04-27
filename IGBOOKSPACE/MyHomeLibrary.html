@@ -303,14 +303,6 @@
           <label><input type="radio" name="trans" value="No" checked onchange="toggleTranslator()"> No</label>
         </div>
       </div>
-      <div class="form-group">
-  <label>ISBN</label>
-  <input type="text" id="f-isbn" placeholder="e.g. 978-81-234-5678-9">
-</div>
-      <div class="form-group">
-        <label>Price (₹)</label>
-        <input type="number" id="f-price" placeholder="e.g. 350" min="0">
-      </div>
       <div class="form-group full" id="translator-group" style="display:none">
         <label>Name of Translator</label>
         <input type="text" id="f-translator" placeholder="Enter translator's name">
@@ -383,21 +375,75 @@ function setCloud(state, text) {
 }
 
 /* ── SHEETS API ── */
+// ── JSONP helper (bypasses CORS for GET requests from local files) ──
+function jsonpGet(url) {
+  return new Promise((resolve, reject) => {
+    const cbName = 'cb_' + Date.now();
+    const script = document.createElement('script');
+    const timeout = setTimeout(() => {
+      delete window[cbName];
+      document.body.removeChild(script);
+      reject(new Error('Timeout'));
+    }, 15000);
+    window[cbName] = (data) => {
+      clearTimeout(timeout);
+      delete window[cbName];
+      document.body.removeChild(script);
+      resolve(data);
+    };
+    script.src = url + '&callback=' + cbName;
+    script.onerror = () => { clearTimeout(timeout); reject(new Error('Script error')); };
+    document.body.appendChild(script);
+  });
+}
+
+// ── POST via hidden form (bypasses CORS for POST from local files) ──
+function formPost(data) {
+  return new Promise((resolve, reject) => {
+    const cbName = 'cb_' + Date.now();
+    const iframe = document.createElement('iframe');
+    iframe.name = cbName;
+    iframe.style.display = 'none';
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = SCRIPT_URL + '?callback=' + cbName + '_response';
+    form.target = cbName;
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'payload';
+    input.value = JSON.stringify(data);
+    form.appendChild(input);
+    document.body.appendChild(iframe);
+    document.body.appendChild(form);
+
+    // Fallback: use fetch with text/plain (works on GitHub Pages)
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      headers: {'Content-Type': 'text/plain'},
+      body: JSON.stringify(data)
+    }).then(r => r.json()).then(resolve).catch(reject)
+    .finally(() => {
+      setTimeout(() => {
+        if (document.body.contains(iframe)) document.body.removeChild(iframe);
+        if (document.body.contains(form))   document.body.removeChild(form);
+      }, 1000);
+    });
+  });
+}
+
 async function sheetsGetAll() {
-  const r = await fetch(SCRIPT_URL + '?action=getAll');
-  return r.json();
+  const data = await jsonpGet(SCRIPT_URL + '?action=getAll');
+  return data;
 }
 async function sheetsSave(book) {
-  const r = await fetch(SCRIPT_URL, { method:'POST', body: JSON.stringify({action:'save', book}) });
-  return r.json();
+  return await formPost({action:'save', book});
 }
 async function sheetsUpdate(book) {
-  const r = await fetch(SCRIPT_URL, { method:'POST', body: JSON.stringify({action:'update', book}) });
-  return r.json();
+  return await formPost({action:'update', book});
 }
 async function sheetsDelete(slno) {
-  const r = await fetch(SCRIPT_URL + '?action=delete&slno=' + slno);
-  return r.json();
+  const data = await jsonpGet(SCRIPT_URL + '?action=delete&slno=' + slno);
+  return data;
 }
 
 /* ── AUTH ── */
@@ -421,7 +467,7 @@ async function doLogin() {
     refreshStats();
   } catch(e) {
     setCloud('err','Connection Failed');
-    showMsg('login-msg','error','Could not connect to Google Sheets. Check your internet and try again.');
+    showMsg('login-msg','error','Could not connect to Google Sheets. Make sure: 1) Internet is on, 2) Script is deployed as Anyone can access. Error: ' + e.message);
     currentUser = null;
     document.getElementById('user-badge').style.display = 'none';
     document.getElementById('logout-btn').style.display  = 'none';
@@ -475,7 +521,7 @@ function toggleTranslator() {
 }
 
 function clearEntryForm() {
-  ['f-title','f-edition','f-author','f-lang','f-pub','f-year','f-pages','f-translator','f-isbn','f-price']
+  ['f-title','f-edition','f-author','f-lang','f-pub','f-year','f-pages','f-translator']
     .forEach(id => document.getElementById(id).value='');
   document.getElementById('f-genre').value='';
   document.querySelector('input[name=trans][value=No]').checked=true;
@@ -505,8 +551,6 @@ async function saveBook() {
     year:        document.getElementById('f-year').value.trim(),
     pages:       document.getElementById('f-pages').value.trim(),
     translation: isTrans ? 'Yes' : 'No',
-    isbn:        document.getElementById('f-isbn').value.trim(),
-    price:       document.getElementById('f-price').value.trim()
     translator:  isTrans ? document.getElementById('f-translator').value.trim() : ''
   };
   showLoader(editingSlno!==null ? 'Updating in Google Sheets…' : 'Saving to Google Sheets…');
@@ -580,8 +624,7 @@ function openModal(book) {
     ['Sl. No',book.slno],['Title',book.title],['Edition',book.edition||'—'],
     ['Author',book.author],['Genre',book.genre||'—'],['Language',book.language],
     ['Publisher',book.publisher||'—'],['Year',book.year||'—'],['Pages',book.pages||'—'],
-    ['Translation',book.translation],['Translator',book.translation==='Yes'?(book.translator||'—'):'N/A'],
-    ['ISBN',      book.isbn  || '—'],['Price',     book.price ? '₹ ' + book.price : '—'],
+    ['Translation',book.translation],['Translator',book.translation==='Yes'?(book.translator||'—'):'N/A']
   ];
   document.getElementById('modal-body').innerHTML=rows.map(([l,v])=>
     `<div class="detail-row"><div class="detail-label">${l}</div><div class="detail-value">${v}</div></div>`
@@ -626,8 +669,6 @@ function loadBookToForm(b) {
   document.querySelector('input[name=trans][value='+(b.translation==='Yes'?'Yes':'No')+']').checked=true;
   toggleTranslator();
   document.getElementById('f-translator').value=b.translator||'';
-  document.getElementById('f-isbn').value  = b.isbn  || '';
-  document.getElementById('f-price').value = b.price || '';
   document.getElementById('entry-card-title').textContent='Edit Book — '+b.title;
   document.getElementById('save-btn').textContent='💾 Update in Google Sheets';
   document.getElementById('delete-btn').style.display='inline-block';
