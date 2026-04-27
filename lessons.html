@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lessons - IG Math Space</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f6fa;
+            color: #333;
+        }
+
+        /* NAVIGATION */
+        .navbar {
+            background-color: #1a237e;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar .sitename {
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+        }
+        .navbar .tagline {
+            color: #9fa8da;
+            font-size: 13px;
+        }
+        .navbar .navlinks a {
+            color: #9fa8da;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 14px;
+        }
+        .navbar .navlinks a:hover {
+            color: white;
+        }
+
+        /* HEADER */
+        .page-header {
+            background-color: #283593;
+            color: white;
+            padding: 35px 30px;
+            text-align: center;
+        }
+        .page-header h1 {
+            margin: 0 0 8px 0;
+            font-size: 30px;
+        }
+        .page-header p {
+            margin: 0;
+            color: #c5cae9;
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* INFO BOX */
+        .info-box {
+            background-color: #e8eaf6;
+            border-left: 4px solid #1a237e;
+            border-radius: 4px;
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        /* FOLDER SECTION */
+        .folder-section {
+            margin-bottom: 40px;
+        }
+
+        .folder-header {
+            background-color: #1a237e;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px 8px 0 0;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .folder-header:hover {
+            background-color: #283593;
+        }
+
+        .folder-body {
+            background: white;
+            border: 1px solid #c5cae9;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            padding: 25px;
+            display: none;
+        }
+        .folder-body.open {
+            display: block;
+        }
+
+        /* SUBFOLDER */
+        .subfolder {
+            margin-bottom: 25px;
+        }
+        .subfolder-title {
+            background-color: #e8eaf6;
+            color: #1a237e;
+            padding: 12px 18px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        /* PDF GRID */
+        .pdf-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        /* PDF CARD */
+        .pdf-card {
+            background-color: #f8f9ff;
+            border: 2px solid #c5cae9;
+            border-radius: 8px;
+            padding: 18px;
+            text-align: center;
+            text-decoration: none;
+            color: #333;
+            display: block;
+            transition: all 0.3s;
+        }
+        .pdf-card:hover {
+            background-color: #1a237e;
+            color: white;
+            border-color: #1a237e;
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(26,35,126,0.3);
+        }
+        .pdf-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        .pdf-number {
+            font-size: 12px;
+            color: #9fa8da;
+            margin-bottom: 8px;
+        }
+        .pdf-card:hover .pdf-number {
+            color: #c5cae9;
+        }
+        .pdf-title {
+            font-size: 13px;
+            font-weight: bold;
+            line-height: 1.4;
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: #1a237e;
+            color: #9fa8da;
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            margin-top: 50px;
+        }
+
+        /* TOGGLE ICON */
+        .toggle-icon {
+            font-size: 20px;
+            transition: transform 0.3s;
+        }
+        .toggle-icon.open {
+            transform: rotate(90deg);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <div class="navbar">
+        <div>
+            <div class="sitename">IG Math Space</div>
+            <div class="tagline">Mathematics Teaching and Research</div>
+        </div>
+        <div class="navlinks">
+            <a href="index.html">Home</a>
+            <a href="lessons.html">Lessons</a>
+            <a href="research.html">Research</a>
+            <a href="students.html">Students</a>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <div class="page-header">
+        <h1>📚 Lessons</h1>
+        <p>Teaching materials and documents</p>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="container">
+
+        <div class="info-box">
+            💡 Click on a folder to expand and view its contents. Click any PDF to open it.
+        </div>
+
+        <!-- ========================== -->
+        <!-- LEARNING MATERIALS FOLDER  -->
+        <!-- ========================== -->
+        <div class="folder-section">
+            
+            <div class="folder-header" onclick="toggleFolder('learning-materials')">
+                <span>📂 Learning Materials</span>
+                <span class="toggle-icon" id="icon-learning-materials">▶</span>
+            </div>
+
+            <div class="folder-body" id="folder-learning-materials">
+
+                <!-- LaTeX Tutorial Subfolder -->
+                <div class="subfolder">
+                    <div class="subfolder-title">
+                        📁 LaTeX Tutorial
+                    </div>
+
+                    <div class="pdf-grid">
+                         
+                        <!-- PDF 01 -->
+                        <a href="Learning Materials/LaTeX Tutorial/FILE_NAME_01.pdf" 
+                           target="_blank" class="pdf-card">
+                            <div class="pdf-icon">📄</div>
+                            <div class="pdf-number">Tutorial 01</div>
+                            <div class="pdf-title">Class 1-Latex -A brief-History </div>
+                        </a>
+
+                        <!-- PDF 02 -->
+                        <a href="Learning Materials/LaTeX Tutorial/FILE_NAME_02.pdf" 
+                           target="_blank" class="pdf-card">
+                            <div class="pdf-icon">📄</div>
+                            <div class="pdf-number">Tutorial 02</div>
+                            <div class="pdf-title">Class 2- LATEXPreamble-and-Hello World-A-Quick-Start </div>
+                        </a>
+
+                        <!-- PDF 03 -->
+                        <a href="Learning Materials/LaTeX Tutorial/FILE_NAME_03.pdf" 
+                           target="_blank" class="pdf-card">
+                            <div class="pdf-icon">📄</div>
+                            <div class="pdf-number">Tutorial 03</div>
+                            <div class="pdf-title">Class 3-Document Structuring-in-LATEX </div>
+                        </a>
+
+                        <!-- PDF 04 -->
+                        <a href="Learning Materials/LaTeX Tutorial/FILE_NAME_04.pdf" 
+                           target="_blank" class="pdf-card">
+                            <div class="pdf-icon">📄</div>
+                            <div class="pdf-number">Tutorial 04</div>
+                            <div class="pdf-title">Class 4_Text Formatting in LATEXStyles Sizes and Colors </div>
+                        </a>
+
+                        <!-- PDF 05 -->
+                        <a href="Learning Materials/LaTeX Tutorial/FILE_NAME_05.pdf" 
+                           target="_blank" class="pdf-card">
+                            <div class="pdf-icon">📄</div>
+                            <div class="pdf-number">Tutorial 05</div>
+                            <div class="pdf-title">Class 5_List Environments in LATEX </div>
+                        </a>
+                        <a href="Learning Materials/LaTeX Tutorial/FILE_NAME_06.pdf" 
+                           target="_blank" class="pdf-card">
+                            <div class="pdf-icon">📄</div>
+                            <div class="pdf-number">Tutorial 06</div>
+                            <div class="pdf-title">Class 6_Mastering Comments and Packages in LATEX </div>
+                        </a>
+                        <a href="Learning Materials/LaTeX Tutorial/.pdf" 
+                           target="_blank" class="pdf-card">
+                            <div class="pdf-icon">📄</div>
+                            <div class="pdf-number">Tutorial 07</div>
+                            <div class="pdf-title">Class 7_LATEXTitle Author Date and maketitle. </div>
+                        </a>
+                        <a href="Learning Materials/LaTeX Tutorial/FILE_NAME_08.pdf" 
+                           target="_blank" class="pdf-card">
+                            <div class="pdf-icon">📄</div>
+                            <div class="pdf-number">Tutorial 08</div>
+                            <div class="pdf-title">Class 8_Page Layout & Margins in LATEX </div>
+                        </a>
+                        <a href="Learning Materials/LaTeX Tutorial/FILE_NAME_09.pdf" 
+                           target="_blank" class="pdf-card">
+                            <div class="pdf-icon">📄</div>
+                            <div class="pdf-number">Tutorial 09</div>
+                            <div class="pdf-title">Class 9 _Custom Headers & Footers inLATEX</div>
+                        </a>
+                        <a href="Learning Materials/LaTeX Tutorial/FILE_NAME_10.pdf" 
+                           target="_blank" class="pdf-card">
+                            <div class="pdf-icon">📄</div>
+                            <div class="pdf-number">Tutorial 10</div>
+                            <div class="pdf-title">Class 10_Footnotes, Emphases & Macros in LATEX </div>
+                        </a>
+                        <a href="Learning Materials/LaTeX Tutorial/FILE_NAME_11.pdf" 
+                           target="_blank" class="pdf-card">
+                            <div class="pdf-icon">📄</div>
+                            <div class="pdf-number">Tutorial 11</div>
+                            <div class="pdf-title">Class 11_Multicolumn Layouts inLATEX</div>
+                        </a>
+                        <a href="Learning Materials/LaTeX Tutorial/FILE_NAME_12.pdf" 
+                           target="_blank" class="pdf-card">
+                            <div class="pdf-icon">📄</div>
+                            <div class="pdf-number">Tutorial 12</div>
+                            <div class="pdf-title">Class 12_Basic Tables in LATEX </div>
+                        </a>
+                        <a href="Learning Materials/LaTeX Tutorial/FILE_NAME_13.pdf" 
+                           target="_blank" class="pdf-card">
+                            <div class="pdf-icon">📄</div>
+                            <div class="pdf-number">Tutorial 13</div>
+                            <div class="pdf-title">Class 13_Advanced Tables</div>
+                        </a>
+                        <a href="Learning Materials/LaTeX Tutorial/FILE_NAME_14.pdf" 
+                           target="_blank" class="pdf-card">
+                            <div class="pdf-icon">📄</div>
+                            <div class="pdf-number">Tutorial 14</div>
+                            <div class="pdf-title">Class 14_Inserting Images Using the graphicx Package </div>
+                        </a>
+                        <a href="Learning Materials/LaTeX Tutorial/FILE_NAME_15.pdf" 
+                           target="_blank" class="pdf-card">
+                            <div class="pdf-icon">📄</div>
+                            <div class="pdf-number">Tutorial 15</div>
+                            <div class="pdf-title">Class 15 _Figures, Captions & Labels in LATEX </div>
+                        </a>
+                        <a href="Learning Materials/LaTeX Tutorial/FILE_NAME_16.pdf" 
+                           target="_blank" class="pdf-card">
+                            <div class="pdf-icon">📄</div>
+                            <div class="pdf-number">Tutorial 16</div>
+                            <div class="pdf-title">Class 16_ ext Wrapping with wrapfig </div>
+                        </a>
+                        <a href="Learning Materials/LaTeX Tutorial/FILE_NAME_17.pdf" 
+                           target="_blank" class="pdf-card">
+                            <div class="pdf-icon">📄</div>
+                            <div class="pdf-number">Tutorial 17</div>
+                            <div class="pdf-title">Class 17_Foundations of LATEX Mathematics</div>
+                        </a>
+                        <a href="Learning Materials/LaTeX Tutorial/FILE_NAME_18.pdf" 
+                           target="_blank" class="pdf-card">
+                            <div class="pdf-icon">📄</div>
+                            <div class="pdf-number">Tutorial 18</div>
+                            <div class="pdf-title">Class 18_Common Mathematical Symbols in LATEX </div>
+                        </a>
+                        <a href="Learning Materials/LaTeX Tutorial/FILE_NAME_19.pdf" 
+                           target="_blank" class="pdf-card">
+                            <div class="pdf-icon">📄</div>
+                            <div class="pdf-number">Tutorial 19</div>
+                            <div class="pdf-title">Class 19_Mastering Equation Alignment</div>
+                        </a>
+                        <a href="Learning Materials/LaTeX Tutorial/FILE_NAME_20.pdf" 
+                           target="_blank" class="pdf-card">
+                            <div class="pdf-icon">📄</div>
+                            <div class="pdf-number">Tutorial 20</div>
+                            <div class="pdf-title">Class 20_Typesetting Matrices in LATEX </div>
+                        </a>
+                        <a href="Learning Materials/LaTeX Tutorial/FILE_NAME_21.pdf" 
+                           target="_blank" class="pdf-card">
+                            <div class="pdf-icon">📄</div>
+                            <div class="pdf-number">Tutorial 21</div>
+                            <div class="pdf-title">Class 21_Theorem Environments in LATEX</div>
+                        </a>
+                        <a href="Learning Materials/LaTeX Tutorial/FILE_NAME_22.pdf" 
+                           target="_blank" class="pdf-card">
+                            <div class="pdf-icon">📄</div>
+                            <div class="pdf-number">Tutorial 22</div>
+                            <div class="pdf-title">Introduction To Overleaf </div>
+                        </a>
+                       
+                        <!-- Copy block above and change numbers -->
+
+                    </div>
+                </div>
+
+                <!-- ADD MORE SUBFOLDERS HERE IN FUTURE -->
+                <!-- Just copy the subfolder block above -->
+
+            </div>
+
+        </div>
+        <!-- END LEARNING MATERIALS -->
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <p>IG Math Space — Mathematics Teaching Website</p>
+        <p>igmathspace.github.io</p>
+    </div>
+
+    <!-- JAVASCRIPT FOR TOGGLE -->
+    <script>
+        function toggleFolder(folderId) {
+            var folder = document.getElementById('folder-' + folderId);
+            var icon = document.getElementById('icon-' + folderId);
+            
+            if (folder.classList.contains('open')) {
+                folder.classList.remove('open');
+                icon.classList.remove('open');
+            } else {
+                folder.classList.add('open');
+                icon.classList.add('open');
+            }
+        }
+    </script>
+
+</body>
+</html>
