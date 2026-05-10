@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IG College Space</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f6fa;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            background-color: #1a237e;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        .header p {
+            margin: 10px 0 0;
+            color: #9fa8da;
+        }
+
+        /* Navigation back to home */
+        .home-nav {
+            background-color: #283593;
+            padding: 12px 20px;
+        }
+
+        .home-nav a {
+            color: #ffd54f;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .home-nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* College Cards Grid */
+        .college-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .college-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .college-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .college-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .college-header h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .college-header .icon {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .college-body {
+            padding: 20px;
+        }
+
+        .college-body p {
+            color: #666;
+            line-height: 1.6;
+            margin: 0 0 15px 0;
+        }
+
+        .college-link {
+            display: inline-block;
+            background-color: #1a237e;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .college-link:hover {
+            background-color: #283593;
+        }
+
+        /* Quick Links Section */
+        .quick-links {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .quick-links h3 {
+            color: #1a237e;
+            margin-top: 0;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        .quick-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .quick-links li {
+            margin: 12px 0;
+        }
+
+        .quick-links a {
+            color: #283593;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .quick-links a:hover {
+            color: #ff6f00;
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #1a237e;
+            color: #9fa8da;
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <h1>🏛️ IG College Space</h1>
+        <p>Your gateway to college resources, time tables, and academic materials</p>
+    </div>
+
+    <!-- Navigation back to home -->
+    <div class="home-nav">
+        <a href="https://igmathspace.github.io">← Back to Home (IG Math Space)</a>
+    </div>
+
+    <div class="container">
+        <!-- College Cards -->
+        <div class="college-grid">
+            
+            <!-- NAM College Card -->
+            <div class="college-card">
+                <div class="college-header">
+                    <span class="icon">📚</span>
+                    <h2>NAMC</h2>
+                </div>
+                <div class="college-body">
+                    <p>NAM College resources, time tables, and academic materials for students and faculty.</p>
+                    <a href="NAMC/TIME%20TABLE/2026-27/" class="college-link">
+                        Access NAMC → 
+                    </a>
+                </div>
+            </div>
+
+            <!-- More colleges can be added here -->
+            <div class="college-card">
+                <div class="college-header">
+                    <span class="icon">🏫</span>
+                    <h2>More Colleges</h2>
+                </div>
+                <div class="college-body">
+                    <p>Additional college spaces will be added here soon.</p>
+                    <a href="#" class="college-link" style="background-color: #999; cursor: not-allowed;">
+                        Coming Soon
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Quick Links Section -->
+        <div class="quick-links">
+            <h3>🔗 Quick Access</h3>
+            <ul>
+                <li>📅 <a href="NAMC/TIME%20TABLE/2026-27/">NAMC Time Table 2026-27</a></li>
+                <li>📖 <a href="#">Academic Calendar (Coming Soon)</a></li>
+                <li>📝 <a href="#">Exam Schedules (Coming Soon)</a></li>
+                <li>📢 <a href="#">College Notices (Coming Soon)</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>IG College Space — Part of IG Math Space</p>
+        <p>igmathspace.github.io</p>
+    </div>
+
+</body>
+</html>
