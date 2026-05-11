@@ -1,255 +1,315 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NAMC - NAM College</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f5f6fa;
-            color: #333;
-        }
-
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
-            color: white;
-            padding: 30px 20px;
-            text-align: center;
-        }
-
-        .header h1 {
-            margin: 0;
-            font-size: 36px;
-        }
-
-        .header p {
-            margin: 10px 0 0;
-            color: #c5cae9;
-        }
-
-        /* Navigation */
-        .breadcrumb {
-            background-color: #e8eaf6;
-            padding: 12px 20px;
-        }
-
-        .breadcrumb a {
-            color: #1a237e;
-            text-decoration: none;
-        }
-
-        .breadcrumb a:hover {
-            text-decoration: underline;
-        }
-
-        .breadcrumb .separator {
-            margin: 0 8px;
-            color: #666;
-        }
-
-        /* Container */
-        .container {
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-
-        /* College Info Box */
-        .info-box {
-            background: white;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border-left: 5px solid #1a237e;
-        }
-
-        .info-box h2 {
-            color: #1a237e;
-            margin-top: 0;
-        }
-
-        .info-box p {
-            line-height: 1.7;
-            color: #555;
-        }
-
-        /* Cards Grid */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card-icon {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-align: center;
-            padding: 25px;
-            font-size: 45px;
-        }
-
-        .card-content {
-            padding: 20px;
-        }
-
-        .card-content h3 {
-            color: #1a237e;
-            margin: 0 0 10px 0;
-        }
-
-        .card-content p {
-            color: #666;
-            margin-bottom: 15px;
-            line-height: 1.5;
-        }
-
-        .card-link {
-            display: inline-block;
-            background-color: #1a237e;
-            color: white;
-            padding: 8px 20px;
-            text-decoration: none;
-            border-radius: 20px;
-            font-size: 14px;
-            transition: background 0.3s;
-        }
-
-        .card-link:hover {
-            background-color: #283593;
-        }
-
-        /* Footer */
-        .footer {
-            background-color: #1a237e;
-            color: #9fa8da;
-            text-align: center;
-            padding: 20px;
-            font-size: 13px;
-            margin-top: 40px;
-        }
-
-        @media (max-width: 600px) {
-            .header h1 { font-size: 28px; }
-            .cards-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NAM College FYUGP Course Details 2026-27</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Georgia, serif; background: #f0f4f8; color: #1a1a2e; min-height: 100vh; padding: 1.5rem 1rem 4rem; }
+.fw { max-width: 740px; margin: 0 auto; }
+.college-header { text-align: center; padding: 1.5rem 1rem; border: 1px solid #c8d6e5; border-radius: 12px; background: #ffffff; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.college-header h1 { font-size: 22px; font-weight: 700; color: #0a3d62; letter-spacing: 0.5px; }
+.college-header h2 { font-size: 14px; font-weight: 400; color: #555; margin-top: 5px; }
+.college-header .tagline { font-size: 11px; color: #888; margin-top: 8px; border-top: 1px solid #eee; padding-top: 8px; }
+.card { background: #fff; border: 1px solid #dde4ed; border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+.sec-title { font-size: 12px; font-weight: 700; color: #0a3d62; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #eef1f6; padding-bottom: 8px; }
+.sub-title { font-size: 12px; font-weight: 600; color: #185FA5; margin: 1rem 0 0.5rem; padding: 5px 12px; background: #e8f1fb; border-radius: 6px; display: inline-block; }
+.fg { margin-bottom: 0.85rem; }
+.fg label { display: block; font-size: 12px; font-weight: 600; color: #444; margin-bottom: 5px; }
+.fg select, .fg input { width: 100%; padding: 9px 12px; border: 1px solid #c8d6e5; border-radius: 7px; font-size: 13px; font-family: Georgia, serif; background: #fafcff; color: #1a1a2e; outline: none; transition: border 0.2s; }
+.fg select:focus, .fg input:focus { border-color: #185FA5; background: #fff; }
+.fr2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media(max-width:480px){ .fr2 { grid-template-columns: 1fr; } }
+.req { color: #c0392b; margin-left: 2px; }
+.course-block { background: #f7f9fc; border: 1px solid #dde4ed; border-radius: 8px; padding: 0.85rem; margin-bottom: 0.65rem; }
+.cb-label { font-size: 11px; font-weight: 700; color: #0a3d62; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 0.65rem; }
+.note { background: #eaf3fb; border-left: 3px solid #185FA5; border-radius: 0 7px 7px 0; padding: 7px 12px; font-size: 11px; color: #444; margin-bottom: 0.85rem; line-height: 1.6; }
+.sem-sec { display: none; }
+.sem-sec.active { display: block; }
+.submit-btn { width: 100%; padding: 15px; background: #0a3d62; color: #fff; border: none; border-radius: 9px; font-size: 16px; font-weight: 700; font-family: Georgia, serif; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 1rem; transition: background 0.2s; }
+.submit-btn:hover { background: #185FA5; }
+.submit-btn:disabled { background: #999; cursor: not-allowed; }
+.footer-note { text-align: center; font-size: 11px; color: #888; margin-top: 1.2rem; line-height: 2; border-top: 1px solid #dde4ed; padding-top: 1rem; }
+.success-box { display: none; background: #fff; border-radius: 12px; border: 1px solid #dde4ed; box-shadow: 0 2px 8px rgba(0,0,0,0.06); overflow: hidden; margin-bottom: 2rem; }
+.success-top { background: #0a3d62; color: #fff; padding: 2rem 1.5rem; text-align: center; }
+.success-top .tick { font-size: 52px; }
+.success-top h3 { font-size: 20px; font-weight: 700; margin-top: 10px; }
+.success-top p { font-size: 13px; opacity: 0.85; margin-top: 6px; }
+.success-body { padding: 1.5rem; }
+.msg-name { font-size: 17px; font-weight: 700; color: #0a3d62; margin-bottom: 14px; }
+.done-section { margin-bottom: 14px; }
+.done-section-title { font-size: 11px; font-weight: 700; color: #1D9E75; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 7px; }
+.done-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #0a6640; font-weight: 600; margin-bottom: 5px; background: #e8f8f0; border-radius: 6px; padding: 6px 10px; }
+.pending-box { background: #fff8e1; border: 1px solid #ffe082; border-radius: 8px; padding: 14px; margin-bottom: 16px; }
+.pending-title { font-size: 11px; font-weight: 700; color: #b8860b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+.pending-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #7d5a00; font-weight: 600; margin-bottom: 5px; }
+.all-done-box { background: #e8f8f0; border: 1px solid #a8e6c8; border-radius: 10px; padding: 20px; text-align: center; margin-bottom: 16px; }
+.all-done-box .big { font-size: 42px; }
+.all-done-box h4 { font-size: 16px; font-weight: 700; color: #0a6640; margin-top: 10px; }
+.all-done-box p { font-size: 13px; color: #1D9E75; margin-top: 6px; line-height: 1.6; }
+.next-btn { width: 100%; padding: 13px; background: #185FA5; color: #fff; border: none; border-radius: 8px; font-size: 15px; font-weight: 700; font-family: Georgia, serif; cursor: pointer; margin-top: 4px; transition: background 0.2s; }
+.next-btn:hover { background: #0a3d62; }
+.err-msg { color: #c0392b; font-size: 12px; margin-top: 8px; display: none; text-align: center; font-weight: 600; }
+</style>
 </head>
 <body>
+<div class="fw">
 
-    <!-- Header -->
-    <div class="header">
-        <h1>🏛️ NAM College (NAMC)</h1>
-        <p>NAMathode Arts & Science College - Academic Resources</p>
+<div class="college-header">
+  <h1>NAM COLLEGE KALLIKKANDY</h1>
+  <h2>FYUGP Course Details 2026&ndash;27 &mdash; For Time Table</h2>
+  <div class="tagline">Fill this form carefully &nbsp;|&nbsp; One submission per semester</div>
+</div>
+
+<div id="mainForm">
+  <div class="card">
+    <div class="sec-title">&#127979; Department &amp; Semester</div>
+    <div class="fg">
+      <label>Department <span class="req">*</span></label>
+      <select id="dept">
+        <option value="">— Select Department —</option>
+        <option>English</option><option>History</option><option>Computer Science</option>
+        <option>Mathematics</option><option>Polymer Chemistry</option><option>Commerce</option>
+        <option>Management Studies</option><option>Statistics</option><option>Arabic</option>
+        <option>Hindi</option><option>Malayalam</option><option>Urdu</option>
+        <option>Journalism</option><option>Physics</option><option>Economics</option>
+        <option>Sociology</option><option>Physical Education</option><option>Library Science</option>
+      </select>
     </div>
-
-    <!-- Breadcrumb Navigation -->
-    <div class="breadcrumb">
-        <a href="https://igmathspace.github.io">Home</a>
-        <span class="separator">→</span>
-        <a href="https://igmathspace.github.io/IGCOLLEGESPACE/">IG College Space</a>
-        <span class="separator">→</span>
-        <span>NAMC</span>
+    <div class="fg">
+      <label>Semester <span class="req">*</span></label>
+      <select id="sem" onchange="showSem()">
+        <option value="">— Select Semester —</option>
+        <option value="1">Semester 1 (Odd)</option>
+        <option value="2">Semester 2 (Even)</option>
+        <option value="3">Semester 3 (Odd)</option>
+        <option value="4">Semester 4 (Even)</option>
+        <option value="5">Semester 5 (Odd)</option>
+        <option value="6">Semester 6 (Even)</option>
+      </select>
     </div>
+  </div>
 
-    <div class="container">
-        <!-- College Information -->
-        <div class="info-box">
-            <h2>📖 About NAM College</h2>
-            <p>
-                NAM College (NAMathode Arts and Science College) is committed to providing quality education 
-                and fostering academic excellence. This space contains all academic resources, time tables, 
-                exam schedules, and other important materials for students and faculty.
-            </p>
-        </div>
+  <div class="sem-sec card" id="s1">
+    <div class="sec-title">&#127979; Semester 1 &mdash; Odd</div>
+    <div class="note">1 Major &middot; 2 Minors &middot; 1 MDC &middot; AEC English (5 batches) &middot; AEC Language &mdash; 3 streams each</div>
+    <div class="sub-title">Major &amp; Minor Courses</div><div id="s1_core"></div>
+    <div class="sub-title">AEC &mdash; English (5 Batches)</div><div id="s1_aec_eng"></div>
+    <div class="sub-title">AEC &mdash; Arabic (3 Streams)</div><div id="s1_arab"></div>
+    <div class="sub-title">AEC &mdash; Hindi (3 Streams)</div><div id="s1_hin"></div>
+    <div class="sub-title">AEC &mdash; Malayalam (3 Streams)</div><div id="s1_mal"></div>
+    <div class="sub-title">AEC &mdash; Urdu (3 Streams)</div><div id="s1_urd"></div>
+  </div>
 
-        <!-- Resources Cards -->
-        <div class="cards-grid">
-            
-            <!-- Time Table Card -->
-            <div class="card">
-                <div class="card-icon">📅</div>
-                <div class="card-content">
-                    <h3>Time Tables</h3>
-                    <p>Class schedules, exam timetables, and academic calendars for all departments.</p>
-                    <a href="TIME%20TABLE/2026-27/" class="card-link">View Time Tables →</a>
-                </div>
-            </div>
+  <div class="sem-sec card" id="s2">
+    <div class="sec-title">&#127979; Semester 2 &mdash; Even</div>
+    <div class="note">1 Major &middot; 2 Minors &middot; 1 MDC &middot; AEC English (5 batches) &middot; AEC Language &mdash; 3 streams each</div>
+    <div class="sub-title">Major &amp; Minor Courses</div><div id="s2_core"></div>
+    <div class="sub-title">AEC &mdash; English (5 Batches)</div><div id="s2_aec_eng"></div>
+    <div class="sub-title">AEC &mdash; Arabic (3 Streams)</div><div id="s2_arab"></div>
+    <div class="sub-title">AEC &mdash; Hindi (3 Streams)</div><div id="s2_hin"></div>
+    <div class="sub-title">AEC &mdash; Malayalam (3 Streams)</div><div id="s2_mal"></div>
+    <div class="sub-title">AEC &mdash; Urdu (3 Streams)</div><div id="s2_urd"></div>
+  </div>
 
-            <!-- Academic Calendar Card -->
-            <div class="card">
-                <div class="card-icon">📆</div>
-                <div class="card-content">
-                    <h3>Academic Calendar</h3>
-                    <p>Important dates, holidays, and academic events for the current session.</p>
-                    <a href="#" class="card-link" style="background-color: #999;">Coming Soon</a>
-                </div>
-            </div>
+  <div class="sem-sec card" id="s3">
+    <div class="sec-title">&#127979; Semester 3 &mdash; Odd</div>
+    <div class="note">2 Majors &middot; 2 Minors &middot; 1 VAC &middot; 1 MDC</div>
+    <div id="s3_core"></div>
+  </div>
 
-            <!-- Exam Schedules Card -->
-            <div class="card">
-                <div class="card-icon">📝</div>
-                <div class="card-content">
-                    <h3>Exam Schedules</h3>
-                    <p>Internal exam schedules, university exam dates, and results.</p>
-                    <a href="#" class="card-link" style="background-color: #999;">Coming Soon</a>
-                </div>
-            </div>
+  <div class="sem-sec card" id="s4">
+    <div class="sec-title">&#127979; Semester 4 &mdash; Even</div>
+    <div class="note">2 Majors &middot; 1 Minor &middot; 2 VAC &middot; 1 SEC</div>
+    <div id="s4_core"></div>
+  </div>
 
-            <!-- Notices Card -->
-            <div class="card">
-                <div class="card-icon">📢</div>
-                <div class="card-content">
-                    <h3>College Notices</h3>
-                    <p>Official announcements, circulars, and important updates.</p>
-                    <a href="#" class="card-link" style="background-color: #999;">Coming Soon</a>
-                </div>
-            </div>
+  <div class="sem-sec card" id="s5">
+    <div class="sec-title">&#127979; Semester 5 &mdash; Odd</div>
+    <div class="note">5 Majors &middot; 1 SEC</div>
+    <div id="s5_core"></div>
+  </div>
 
-            <!-- Department Resources Card -->
-            <div class="card">
-                <div class="card-icon">📚</div>
-                <div class="card-content">
-                    <h3>Department Resources</h3>
-                    <p>Department-wise study materials, syllabi, and resources.</p>
-                    <a href="#" class="card-link" style="background-color: #999;">Coming Soon</a>
-                </div>
-            </div>
+  <div class="sem-sec card" id="s6">
+    <div class="sec-title">&#127979; Semester 6 &mdash; Even</div>
+    <div class="note">5 Majors &middot; 1 SEC</div>
+    <div id="s6_core"></div>
+  </div>
 
-            <!-- Faculty Card -->
-            <div class="card">
-                <div class="card-icon">👨‍🏫</div>
-                <div class="card-content">
-                    <h3>Faculty Corner</h3>
-                    <p>Faculty resources, duty rosters, and department meetings.</p>
-                    <a href="#" class="card-link" style="background-color: #999;">Coming Soon</a>
-                </div>
-            </div>
-        </div>
+  <div class="card">
+    <div class="sec-title">&#128100; Faculty Submitting This Form</div>
+    <div class="fg">
+      <label>Faculty Name <span class="req">*</span></label>
+      <input type="text" id="facName" placeholder="Full name of faculty submitting this form" />
     </div>
+  </div>
 
-    <!-- Footer -->
-    <div class="footer">
-        <p>NAM College — Part of IG College Space | IG Math Space</p>
-        <p>igmathspace.github.io</p>
+  <div class="err-msg" id="errMsg">&#9888; Please fill in Department, Semester and Faculty Name before submitting.</div>
+  <button class="submit-btn" id="submitBtn" onclick="doSubmit()">
+    &#128193; &nbsp; Push to Time Table Folder
+  </button>
+  <div class="footer-note">
+    Prepared by: <strong>Gafoor I</strong>, FYUGP Coordinator &nbsp;|&nbsp; Department of Mathematics<br>
+    NAM College Kallikkandy
+  </div>
+</div>
+
+<!-- SUCCESS BOX -->
+<div class="success-box" id="successBox">
+  <div class="success-top">
+    <div class="tick">&#10004;</div>
+    <h3>Successfully Pushed to Time Table Folder!</h3>
+    <p id="successSubtitle"></p>
+  </div>
+  <div class="success-body">
+    <div class="msg-name" id="msgName"></div>
+    <div id="doneListWrap" class="done-section"></div>
+    <div id="pendingWrap"></div>
+    <div id="allDoneWrap" class="all-done-box" style="display:none;">
+      <div class="big">&#127881;</div>
+      <h4>You have completed all 6 Semesters!</h4>
+      <p>Thank you so much, your data has been fully recorded.<br>The FYUGP Coordinator will now consolidate everything.</p>
     </div>
+    <button class="next-btn" id="nextBtn" onclick="doReset()">&#8594; &nbsp; Submit Next Semester</button>
+  </div>
+</div>
 
+</div>
+<script>
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbxHRCinyFYpSL5c0ztjZx7V5Rm1zAh22mBoX6AQh9C_GTobqWanCzEkJFUBacQcAF4/exec";
+const SEM_LABELS = {"1":"Semester 1 (Odd)","2":"Semester 2 (Even)","3":"Semester 3 (Odd)","4":"Semester 4 (Even)","5":"Semester 5 (Odd)","6":"Semester 6 (Even)"};
+let submittedSems = [];
+let currentFacName = "";
+
+function cb(label, key) {
+  return `<div class="course-block" data-key="${key}">
+    <div class="cb-label">${label}</div>
+    <div class="fr2">
+      <div class="fg"><label>Course Code</label><input type="text" class="f-code" placeholder="Course code"/></div>
+      <div class="fg"><label>Course Title</label><input type="text" class="f-title" placeholder="Course title"/></div>
+    </div>
+    <div class="fr2">
+      <div class="fg"><label>Hours / Week</label><input type="number" class="f-hours" min="1" max="10" placeholder="e.g. 4"/></div>
+      <div class="fg"><label>Assigned Faculty</label><input type="text" class="f-fac" placeholder="Faculty name"/></div>
+    </div>
+  </div>`;
+}
+function aecEng(s){ return ['Commerce','PC & CS','Mathematics','History','English'].map(n=>cb(`AEC English — ${n} Batch`,`SEM${s}_AEC_ENG_${n.replace(/[\s&]/g,'_')}`)).join(''); }
+function aecLang(s,lang){ return ['Commerce','Science','Arts'].map(n=>cb(`AEC ${lang} — ${n} Stream`,`SEM${s}_AEC_${lang}_${n}`)).join(''); }
+
+function buildAll(){
+  document.getElementById('s1_core').innerHTML=cb('Major — 1','SEM1_MAJ1')+cb('Minor — 1','SEM1_MIN1')+cb('Minor — 2','SEM1_MIN2')+cb('MDC','SEM1_MDC');
+  document.getElementById('s1_aec_eng').innerHTML=aecEng(1);
+  document.getElementById('s1_arab').innerHTML=aecLang(1,'Arabic');
+  document.getElementById('s1_hin').innerHTML=aecLang(1,'Hindi');
+  document.getElementById('s1_mal').innerHTML=aecLang(1,'Malayalam');
+  document.getElementById('s1_urd').innerHTML=aecLang(1,'Urdu');
+  document.getElementById('s2_core').innerHTML=cb('Major — 1','SEM2_MAJ1')+cb('Minor — 1','SEM2_MIN1')+cb('Minor — 2','SEM2_MIN2')+cb('MDC','SEM2_MDC');
+  document.getElementById('s2_aec_eng').innerHTML=aecEng(2);
+  document.getElementById('s2_arab').innerHTML=aecLang(2,'Arabic');
+  document.getElementById('s2_hin').innerHTML=aecLang(2,'Hindi');
+  document.getElementById('s2_mal').innerHTML=aecLang(2,'Malayalam');
+  document.getElementById('s2_urd').innerHTML=aecLang(2,'Urdu');
+  document.getElementById('s3_core').innerHTML=cb('Major — 1','SEM3_MAJ1')+cb('Major — 2','SEM3_MAJ2')+cb('Minor — 1','SEM3_MIN1')+cb('Minor — 2','SEM3_MIN2')+cb('VAC','SEM3_VAC')+cb('MDC','SEM3_MDC');
+  document.getElementById('s4_core').innerHTML=cb('Major — 1','SEM4_MAJ1')+cb('Major — 2','SEM4_MAJ2')+cb('Minor — 1','SEM4_MIN1')+cb('VAC — 1','SEM4_VAC1')+cb('VAC — 2','SEM4_VAC2')+cb('SEC','SEM4_SEC');
+  document.getElementById('s5_core').innerHTML=cb('Major — 1','SEM5_MAJ1')+cb('Major — 2','SEM5_MAJ2')+cb('Major — 3','SEM5_MAJ3')+cb('Major — 4','SEM5_MAJ4')+cb('Major — 5','SEM5_MAJ5')+cb('SEC (SEC-2)','SEM5_SEC');
+  document.getElementById('s6_core').innerHTML=cb('Major — 1','SEM6_MAJ1')+cb('Major — 2','SEM6_MAJ2')+cb('Major — 3','SEM6_MAJ3')+cb('Major — 4','SEM6_MAJ4')+cb('Major — 5','SEM6_MAJ5')+cb('SEC (SEC-2)','SEM6_SEC');
+}
+buildAll();
+
+function showSem(){
+  document.querySelectorAll('.sem-sec').forEach(el=>el.classList.remove('active'));
+  const v=document.getElementById('sem').value;
+  if(v) document.getElementById('s'+v).classList.add('active');
+}
+
+function showSuccessMessage(semValue){
+  const allSems=["1","2","3","4","5","6"];
+  const pending=allSems.filter(s=>!submittedSems.includes(s));
+  const allDone=pending.length===0;
+
+  document.getElementById('successSubtitle').textContent=`Data for ${SEM_LABELS[semValue]} has been recorded.`;
+  document.getElementById('msgName').innerHTML=`Dear <span style="color:#185FA5;font-style:italic;">${currentFacName}</span>,`;
+
+  let doneHtml=`<div class="done-section-title">&#10003; Semesters submitted by you:</div>`;
+  submittedSems.forEach(s=>{ doneHtml+=`<div class="done-item">&#9989; &nbsp;${SEM_LABELS[s]}</div>`; });
+  document.getElementById('doneListWrap').innerHTML=doneHtml;
+
+  if(allDone){
+    document.getElementById('pendingWrap').innerHTML='';
+    document.getElementById('allDoneWrap').style.display='block';
+    document.getElementById('nextBtn').style.display='none';
+  } else {
+    let pendHtml=`<div class="pending-box"><div class="pending-title">&#9654; Please submit data for these semesters next:</div>`;
+    pending.forEach(s=>{ pendHtml+=`<div class="pending-item">&#9654; &nbsp;${SEM_LABELS[s]}</div>`; });
+    pendHtml+=`</div>`;
+    document.getElementById('pendingWrap').innerHTML=pendHtml;
+    document.getElementById('allDoneWrap').style.display='none';
+    document.getElementById('nextBtn').style.display='block';
+  }
+}
+
+function collectRows(){
+  const dept=document.getElementById('dept').value;
+  const sem=document.getElementById('sem').value;
+  const rows=[];
+  const sec=document.getElementById('s'+sem);
+  if(!sec) return rows;
+  sec.querySelectorAll('.course-block').forEach(block=>{
+    const code=block.querySelector('.f-code').value.trim();
+    const title=block.querySelector('.f-title').value.trim();
+    const hrs=block.querySelector('.f-hours').value.trim();
+    const fac=block.querySelector('.f-fac').value.trim();
+    if(code||title||hrs||fac){
+      rows.push({department:dept,semester:SEM_LABELS[sem],facultyName:currentFacName,
+        courseType:block.dataset.key,courseCode:code,courseTitle:title,
+        hoursPerWeek:hrs,assignedFaculty:fac});
+    }
+  });
+  return rows;
+}
+
+async function doSubmit(){
+  const dept=document.getElementById('dept').value;
+  const sem=document.getElementById('sem').value;
+  const facName=document.getElementById('facName').value.trim();
+  const errEl=document.getElementById('errMsg');
+  if(!dept||!sem||!facName){ errEl.style.display='block'; return; }
+  errEl.style.display='none';
+  if(submittedSems.includes(sem)){ alert(`You already submitted ${SEM_LABELS[sem]}. Please select a different semester.`); return; }
+  currentFacName=facName;
+  const rows=collectRows();
+  if(rows.length===0){ alert('Please fill in at least one course before submitting.'); return; }
+  const btn=document.getElementById('submitBtn');
+  btn.disabled=true;
+  btn.innerHTML='&#8987; Saving to Time Table Folder...';
+  try {
+    await Promise.all(rows.map(row=>fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(row)})));
+    submittedSems.push(sem);
+    showSuccessMessage(sem);
+    document.getElementById('mainForm').style.display='none';
+    document.getElementById('successBox').style.display='block';
+    window.scrollTo(0,0);
+  } catch(err){
+    alert('Something went wrong. Please check your internet and try again.');
+    btn.disabled=false;
+    btn.innerHTML='&#128193; &nbsp; Push to Time Table Folder';
+  }
+}
+
+function doReset(){
+  document.getElementById('mainForm').style.display='block';
+  document.getElementById('successBox').style.display='none';
+  document.getElementById('dept').value='';
+  document.getElementById('sem').value='';
+  const btn=document.getElementById('submitBtn');
+  btn.disabled=false;
+  btn.innerHTML='&#128193; &nbsp; Push to Time Table Folder';
+  document.querySelectorAll('.sem-sec').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.course-block input').forEach(el=>el.value='');
+  window.scrollTo(0,0);
+}
+</script>
 </body>
 </html>
