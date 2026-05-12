@@ -8,56 +8,40 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: Georgia, serif; background: #f0f4f8; color: #1a1a2e; min-height: 100vh; padding: 1.5rem 1rem 4rem; }
 .fw { max-width: 740px; margin: 0 auto; }
-
 .college-header { text-align: center; padding: 1.5rem 1rem; border: 1px solid #c8d6e5; border-radius: 12px; background: #ffffff; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
 .college-header h1 { font-size: 22px; font-weight: 700; color: #0a3d62; letter-spacing: 0.5px; }
 .college-header h2 { font-size: 14px; font-weight: 400; color: #555; margin-top: 5px; }
 .college-header .tagline { font-size: 11px; color: #888; margin-top: 8px; border-top: 1px solid #eee; padding-top: 8px; }
-
 .card { background: #fff; border: 1px solid #dde4ed; border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
 .sec-title { font-size: 12px; font-weight: 700; color: #0a3d62; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #eef1f6; padding-bottom: 8px; }
 .sub-title { font-size: 12px; font-weight: 600; color: #185FA5; margin: 1rem 0 0.5rem; padding: 5px 12px; background: #e8f1fb; border-radius: 6px; display: inline-block; }
-
 .fg { margin-bottom: 0.85rem; }
 .fg label { display: block; font-size: 12px; font-weight: 600; color: #444; margin-bottom: 5px; }
 .fg select, .fg input { width: 100%; padding: 9px 12px; border: 1px solid #c8d6e5; border-radius: 7px; font-size: 13px; font-family: Georgia, serif; background: #fafcff; color: #1a1a2e; outline: none; transition: border 0.2s; }
 .fg select:focus, .fg input:focus { border-color: #185FA5; background: #fff; }
-.fg input:disabled { background: #f0f0f0; color: #aaa; cursor: not-allowed; border-color: #ddd; }
-
+.fg input:disabled { background: #f0f0f0; color: #999; cursor: not-allowed; border-color: #ddd; }
 .fr2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 @media(max-width:480px){ .fr2 { grid-template-columns: 1fr; } }
-
 .req { color: #c0392b; margin-left: 2px; }
-
-/* COURSE BLOCK */
 .course-block { background: #f7f9fc; border: 1px solid #dde4ed; border-radius: 8px; padding: 0.85rem; margin-bottom: 0.75rem; }
 .cb-label { font-size: 12px; font-weight: 700; color: #0a3d62; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 0.75rem; }
-
-/* OFFER TOGGLE ROW */
-.offer-row { display: flex; align-items: center; gap: 12px; margin-bottom: 0.75rem; padding: 8px 12px; background: #eaf3fb; border-radius: 7px; border: 1px solid #c5dff5; }
-.offer-row label { font-size: 12px; font-weight: 700; color: #0a3d62; flex: 1; }
+.offer-row { display: flex; align-items: center; gap: 12px; margin-bottom: 0.75rem; padding: 8px 12px; background: #eaf3fb; border-radius: 7px; border: 1px solid #c5dff5; flex-wrap: wrap; }
+.offer-row label { font-size: 12px; font-weight: 700; color: #0a3d62; flex: 1; min-width: 160px; }
 .toggle-wrap { display: flex; gap: 8px; }
-.toggle-btn { padding: 5px 16px; border-radius: 20px; border: 1.5px solid #c8d6e5; background: #fff; font-size: 12px; font-weight: 700; cursor: pointer; font-family: Georgia, serif; transition: all 0.2s; }
+.toggle-btn { padding: 5px 18px; border-radius: 20px; border: 1.5px solid #c8d6e5; background: #fff; font-size: 12px; font-weight: 700; cursor: pointer; font-family: Georgia, serif; transition: all 0.2s; }
 .toggle-btn.yes { border-color: #1D9E75; color: #1D9E75; }
-.toggle-btn.yes.active { background: #1D9E75; color: #fff; border-color: #1D9E75; }
+.toggle-btn.yes.active { background: #1D9E75; color: #fff; }
 .toggle-btn.no { border-color: #c0392b; color: #c0392b; }
-.toggle-btn.no.active { background: #c0392b; color: #fff; border-color: #c0392b; }
-
-/* COURSE FIELDS - hidden/shown */
-.course-fields { display: none; margin-top: 0.5rem; }
+.toggle-btn.no.active { background: #c0392b; color: #fff; }
+.course-fields { display: none; margin-top: 0.65rem; }
 .course-fields.visible { display: block; }
-
 .note { background: #eaf3fb; border-left: 3px solid #185FA5; border-radius: 0 7px 7px 0; padding: 7px 12px; font-size: 11px; color: #444; margin-bottom: 0.85rem; line-height: 1.6; }
 .sem-sec { display: none; }
 .sem-sec.active { display: block; }
-
 .submit-btn { width: 100%; padding: 15px; background: #0a3d62; color: #fff; border: none; border-radius: 9px; font-size: 16px; font-weight: 700; font-family: Georgia, serif; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 1rem; transition: background 0.2s; }
 .submit-btn:hover { background: #185FA5; }
 .submit-btn:disabled { background: #999; cursor: not-allowed; }
-
 .footer-note { text-align: center; font-size: 11px; color: #888; margin-top: 1.2rem; line-height: 2; border-top: 1px solid #dde4ed; padding-top: 1rem; }
-
-/* SUCCESS */
 .success-box { display: none; background: #fff; border-radius: 12px; border: 1px solid #dde4ed; box-shadow: 0 2px 8px rgba(0,0,0,0.06); overflow: hidden; margin-bottom: 2rem; }
 .success-top { background: #0a3d62; color: #fff; padding: 2rem 1.5rem; text-align: center; }
 .success-top .tick { font-size: 52px; }
@@ -90,7 +74,6 @@ body { font-family: Georgia, serif; background: #f0f4f8; color: #1a1a2e; min-hei
 </div>
 
 <div id="mainForm">
-
   <div class="card">
     <div class="sec-title">&#127979; Department &amp; Semester</div>
     <div class="fg">
@@ -119,7 +102,6 @@ body { font-family: Georgia, serif; background: #f0f4f8; color: #1a1a2e; min-hei
     </div>
   </div>
 
-  <!-- SEM 1 -->
   <div class="sem-sec card" id="s1">
     <div class="sec-title">&#127979; Semester 1 &mdash; Odd</div>
     <div class="note">1 Major &middot; 2 Minors &middot; 1 MDC &middot; AEC English (5 batches) &middot; AEC Language &mdash; 3 streams each</div>
@@ -131,7 +113,6 @@ body { font-family: Georgia, serif; background: #f0f4f8; color: #1a1a2e; min-hei
     <div class="sub-title">AEC &mdash; Urdu (3 Streams)</div><div id="s1_urd"></div>
   </div>
 
-  <!-- SEM 2 -->
   <div class="sem-sec card" id="s2">
     <div class="sec-title">&#127979; Semester 2 &mdash; Even</div>
     <div class="note">1 Major &middot; 2 Minors &middot; 1 MDC &middot; AEC English (5 batches) &middot; AEC Language &mdash; 3 streams each</div>
@@ -143,35 +124,30 @@ body { font-family: Georgia, serif; background: #f0f4f8; color: #1a1a2e; min-hei
     <div class="sub-title">AEC &mdash; Urdu (3 Streams)</div><div id="s2_urd"></div>
   </div>
 
-  <!-- SEM 3 -->
   <div class="sem-sec card" id="s3">
     <div class="sec-title">&#127979; Semester 3 &mdash; Odd</div>
     <div class="note">2 Majors &middot; 2 Minors &middot; 1 VAC &middot; 1 MDC</div>
     <div id="s3_core"></div>
   </div>
 
-  <!-- SEM 4 -->
   <div class="sem-sec card" id="s4">
     <div class="sec-title">&#127979; Semester 4 &mdash; Even</div>
     <div class="note">2 Majors &middot; 1 Minor &middot; 2 VAC &middot; 1 SEC</div>
     <div id="s4_core"></div>
   </div>
 
-  <!-- SEM 5 -->
   <div class="sem-sec card" id="s5">
     <div class="sec-title">&#127979; Semester 5 &mdash; Odd</div>
     <div class="note">5 Majors &middot; 1 SEC</div>
     <div id="s5_core"></div>
   </div>
 
-  <!-- SEM 6 -->
   <div class="sem-sec card" id="s6">
     <div class="sec-title">&#127979; Semester 6 &mdash; Even</div>
     <div class="note">5 Majors &middot; 1 SEC</div>
     <div id="s6_core"></div>
   </div>
 
-  <!-- FACULTY -->
   <div class="card">
     <div class="sec-title">&#128100; Faculty Submitting This Form</div>
     <div class="fg">
@@ -190,7 +166,6 @@ body { font-family: Georgia, serif; background: #f0f4f8; color: #1a1a2e; min-hei
   </div>
 </div>
 
-<!-- SUCCESS BOX -->
 <div class="success-box" id="successBox">
   <div class="success-top">
     <div class="tick">&#10004;</div>
@@ -214,13 +189,21 @@ body { font-family: Georgia, serif; background: #f0f4f8; color: #1a1a2e; min-hei
 <script>
 const SHEET_URL = "https://script.google.com/macros/s/AKfycbxHRCinyFYpSL5c0ztjZx7V5Rm1zAh22mBoX6AQh9C_GTobqWanCzEkJFUBacQcAF4/exec";
 const SEM_LABELS = {"1":"Semester 1 (Odd)","2":"Semester 2 (Even)","3":"Semester 3 (Odd)","4":"Semester 4 (Even)","5":"Semester 5 (Odd)","6":"Semester 6 (Even)"};
+
+// Global counter for unique safe IDs
+let blockCounter = 0;
+// Store mapping: safeId -> courseType label
+const blockMap = {};
+
 let submittedSems = [];
 let currentFacName = "";
 
-// Build one course block with offer toggle
-function cb(label, key) {
-  const uid = key.replace(/[^a-zA-Z0-9]/g,'_');
-  return `<div class="course-block" data-key="${key}" id="block_${uid}">
+// Generate a safe numeric ID for each block
+function cb(label, courseTypeLabel) {
+  blockCounter++;
+  const uid = 'b' + blockCounter;
+  blockMap[uid] = courseTypeLabel;
+  return `<div class="course-block" data-uid="${uid}" data-coursetype="${courseTypeLabel}">
     <div class="cb-label">${label}</div>
     <div class="offer-row">
       <label>Does your department offer this course?</label>
@@ -232,10 +215,10 @@ function cb(label, key) {
     <div class="course-fields" id="fields_${uid}">
       <div class="fr2">
         <div class="fg"><label>Course Code</label>
-          <input type="text" id="code_${uid}" placeholder="Course code" />
+          <input type="text" id="code_${uid}" placeholder="e.g. MAT501" />
         </div>
         <div class="fg"><label>Course Title</label>
-          <input type="text" id="title_${uid}" placeholder="Course title" />
+          <input type="text" id="title_${uid}" placeholder="Full course title" />
         </div>
       </div>
       <div class="fr2">
@@ -251,168 +234,227 @@ function cb(label, key) {
 }
 
 function toggleOffer(uid, choice) {
-  const fieldsEl = document.getElementById('fields_'+uid);
-  const block = document.getElementById('block_'+uid);
-  const yesBtn = block.querySelector('.toggle-btn.yes');
-  const noBtn  = block.querySelector('.toggle-btn.no');
-  if(choice === 'yes') {
+  const fieldsEl = document.getElementById('fields_' + uid);
+  const allBlocks = document.querySelectorAll('[data-uid="' + uid + '"]');
+  let yesBtn, noBtn;
+  allBlocks.forEach(b => {
+    yesBtn = b.querySelector('.toggle-btn.yes');
+    noBtn  = b.querySelector('.toggle-btn.no');
+  });
+  if (choice === 'yes') {
     yesBtn.classList.add('active');
     noBtn.classList.remove('active');
     fieldsEl.classList.add('visible');
-    // Clear NA placeholders — fields are now active
     ['code','title','hrs','fac'].forEach(f => {
-      const el = document.getElementById(f+'_'+uid);
-      if(el) { el.disabled = false; el.value = ''; }
+      const el = document.getElementById(f + '_' + uid);
+      if (el) { el.disabled = false; if(el.value==='NA') el.value = ''; }
     });
   } else {
     noBtn.classList.add('active');
     yesBtn.classList.remove('active');
     fieldsEl.classList.remove('visible');
-    // Set NA when not offered
     ['code','title','hrs','fac'].forEach(f => {
-      const el = document.getElementById(f+'_'+uid);
-      if(el) { el.disabled = true; el.value = 'NA'; }
+      const el = document.getElementById(f + '_' + uid);
+      if (el) { el.disabled = true; el.value = 'NA'; }
     });
   }
 }
 
-function aecEng(s){ return ['Commerce','PC & CS','Mathematics','History','English'].map(n=>cb(`AEC English — ${n} Batch`,`SEM${s}_AEC_ENG_${n.replace(/[\s&]/g,'_')}`)).join(''); }
-function aecLang(s,lang){ return ['Commerce','Science','Arts'].map(n=>cb(`AEC ${lang} — ${n} Stream`,`SEM${s}_AEC_${lang}_${n}`)).join(''); }
+function aecEng(s) {
+  const batches = ['Commerce','PC and CS','Mathematics','History','English'];
+  return batches.map(n => cb('AEC English — ' + n + ' Batch', 'SEM' + s + '_AEC_ENG_' + n.replace(/\s/g,'_'))).join('');
+}
+function aecLang(s, lang) {
+  const streams = ['Commerce','Science','Arts'];
+  return streams.map(n => cb('AEC ' + lang + ' — ' + n + ' Stream', 'SEM' + s + '_AEC_' + lang + '_' + n)).join('');
+}
 
-function buildAll(){
-  document.getElementById('s1_core').innerHTML=cb('Major — 1','SEM1_MAJ1')+cb('Minor — 1','SEM1_MIN1')+cb('Minor — 2','SEM1_MIN2')+cb('MDC','SEM1_MDC');
-  document.getElementById('s1_aec_eng').innerHTML=aecEng(1);
-  document.getElementById('s1_arab').innerHTML=aecLang(1,'Arabic');
-  document.getElementById('s1_hin').innerHTML=aecLang(1,'Hindi');
-  document.getElementById('s1_mal').innerHTML=aecLang(1,'Malayalam');
-  document.getElementById('s1_urd').innerHTML=aecLang(1,'Urdu');
+function buildAll() {
+  blockCounter = 0;
+  document.getElementById('s1_core').innerHTML =
+    cb('Major — 1','SEM1_MAJ1') + cb('Minor — 1','SEM1_MIN1') +
+    cb('Minor — 2','SEM1_MIN2') + cb('MDC','SEM1_MDC');
+  document.getElementById('s1_aec_eng').innerHTML = aecEng(1);
+  document.getElementById('s1_arab').innerHTML = aecLang(1,'Arabic');
+  document.getElementById('s1_hin').innerHTML  = aecLang(1,'Hindi');
+  document.getElementById('s1_mal').innerHTML  = aecLang(1,'Malayalam');
+  document.getElementById('s1_urd').innerHTML  = aecLang(1,'Urdu');
 
-  document.getElementById('s2_core').innerHTML=cb('Major — 1','SEM2_MAJ1')+cb('Minor — 1','SEM2_MIN1')+cb('Minor — 2','SEM2_MIN2')+cb('MDC','SEM2_MDC');
-  document.getElementById('s2_aec_eng').innerHTML=aecEng(2);
-  document.getElementById('s2_arab').innerHTML=aecLang(2,'Arabic');
-  document.getElementById('s2_hin').innerHTML=aecLang(2,'Hindi');
-  document.getElementById('s2_mal').innerHTML=aecLang(2,'Malayalam');
-  document.getElementById('s2_urd').innerHTML=aecLang(2,'Urdu');
+  document.getElementById('s2_core').innerHTML =
+    cb('Major — 1','SEM2_MAJ1') + cb('Minor — 1','SEM2_MIN1') +
+    cb('Minor — 2','SEM2_MIN2') + cb('MDC','SEM2_MDC');
+  document.getElementById('s2_aec_eng').innerHTML = aecEng(2);
+  document.getElementById('s2_arab').innerHTML = aecLang(2,'Arabic');
+  document.getElementById('s2_hin').innerHTML  = aecLang(2,'Hindi');
+  document.getElementById('s2_mal').innerHTML  = aecLang(2,'Malayalam');
+  document.getElementById('s2_urd').innerHTML  = aecLang(2,'Urdu');
 
-  document.getElementById('s3_core').innerHTML=cb('Major — 1','SEM3_MAJ1')+cb('Major — 2','SEM3_MAJ2')+cb('Minor — 1','SEM3_MIN1')+cb('Minor — 2','SEM3_MIN2')+cb('VAC','SEM3_VAC')+cb('MDC','SEM3_MDC');
-  document.getElementById('s4_core').innerHTML=cb('Major — 1','SEM4_MAJ1')+cb('Major — 2','SEM4_MAJ2')+cb('Minor — 1','SEM4_MIN1')+cb('VAC — 1','SEM4_VAC1')+cb('VAC — 2','SEM4_VAC2')+cb('SEC','SEM4_SEC');
-  document.getElementById('s5_core').innerHTML=cb('Major — 1','SEM5_MAJ1')+cb('Major — 2','SEM5_MAJ2')+cb('Major — 3','SEM5_MAJ3')+cb('Major — 4','SEM5_MAJ4')+cb('Major — 5','SEM5_MAJ5')+cb('SEC (SEC-2)','SEM5_SEC');
-  document.getElementById('s6_core').innerHTML=cb('Major — 1','SEM6_MAJ1')+cb('Major — 2','SEM6_MAJ2')+cb('Major — 3','SEM6_MAJ3')+cb('Major — 4','SEM6_MAJ4')+cb('Major — 5','SEM6_MAJ5')+cb('SEC (SEC-2)','SEM6_SEC');
+  document.getElementById('s3_core').innerHTML =
+    cb('Major — 1','SEM3_MAJ1') + cb('Major — 2','SEM3_MAJ2') +
+    cb('Minor — 1','SEM3_MIN1') + cb('Minor — 2','SEM3_MIN2') +
+    cb('VAC','SEM3_VAC') + cb('MDC','SEM3_MDC');
 
-  // Set all fields to NA + disabled by default
+  document.getElementById('s4_core').innerHTML =
+    cb('Major — 1','SEM4_MAJ1') + cb('Major — 2','SEM4_MAJ2') +
+    cb('Minor — 1','SEM4_MIN1') +
+    cb('VAC — 1','SEM4_VAC1') + cb('VAC — 2','SEM4_VAC2') +
+    cb('SEC','SEM4_SEC');
+
+  document.getElementById('s5_core').innerHTML =
+    cb('Major — 1','SEM5_MAJ1') + cb('Major — 2','SEM5_MAJ2') +
+    cb('Major — 3','SEM5_MAJ3') + cb('Major — 4','SEM5_MAJ4') +
+    cb('Major — 5','SEM5_MAJ5') + cb('SEC','SEM5_SEC');
+
+  document.getElementById('s6_core').innerHTML =
+    cb('Major — 1','SEM6_MAJ1') + cb('Major — 2','SEM6_MAJ2') +
+    cb('Major — 3','SEM6_MAJ3') + cb('Major — 4','SEM6_MAJ4') +
+    cb('Major — 5','SEM6_MAJ5') + cb('SEC','SEM6_SEC');
+
+  // Set all inputs to NA + disabled by default
   document.querySelectorAll('.course-block').forEach(block => {
-    const uid = block.id.replace('block_','');
+    const uid = block.dataset.uid;
     ['code','title','hrs','fac'].forEach(f => {
-      const el = document.getElementById(f+'_'+uid);
-      if(el){ el.disabled = true; el.value = 'NA'; }
+      const el = document.getElementById(f + '_' + uid);
+      if (el) { el.disabled = true; el.value = 'NA'; }
     });
   });
 }
 buildAll();
 
-function showSem(){
-  document.querySelectorAll('.sem-sec').forEach(el=>el.classList.remove('active'));
-  const v=document.getElementById('sem').value;
-  if(v) document.getElementById('s'+v).classList.add('active');
+function showSem() {
+  document.querySelectorAll('.sem-sec').forEach(el => el.classList.remove('active'));
+  const v = document.getElementById('sem').value;
+  if (v) document.getElementById('s' + v).classList.add('active');
 }
 
-function collectRows(){
-  const dept=document.getElementById('dept').value;
-  const sem=document.getElementById('sem').value;
-  const rows=[];
-  const sec=document.getElementById('s'+sem);
-  if(!sec) return rows;
-  sec.querySelectorAll('.course-block').forEach(block=>{
-    const uid=block.id.replace('block_','');
-    const yesBtn=block.querySelector('.toggle-btn.yes');
-    const offered = yesBtn.classList.contains('active');
-    const code  = offered ? (document.getElementById('code_'+uid)||{}).value||'NA' : 'NA';
-    const title = offered ? (document.getElementById('title_'+uid)||{}).value||'NA' : 'NA';
-    const hrs   = offered ? (document.getElementById('hrs_'+uid)||{}).value||'NA' : 'NA';
-    const fac   = offered ? (document.getElementById('fac_'+uid)||{}).value||'NA' : 'NA';
+function collectRows() {
+  const dept = document.getElementById('dept').value;
+  const sem  = document.getElementById('sem').value;
+  const rows = [];
+  const sec  = document.getElementById('s' + sem);
+  if (!sec) return rows;
+
+  sec.querySelectorAll('.course-block').forEach(block => {
+    const uid        = block.dataset.uid;
+    const courseType = block.dataset.coursetype;
+    const yesBtn     = block.querySelector('.toggle-btn.yes');
+    const offered    = yesBtn ? yesBtn.classList.contains('active') : false;
+
+    const codeEl  = document.getElementById('code_'  + uid);
+    const titleEl = document.getElementById('title_' + uid);
+    const hrsEl   = document.getElementById('hrs_'   + uid);
+    const facEl   = document.getElementById('fac_'   + uid);
+
     rows.push({
-      department:dept, semester:SEM_LABELS[sem], facultyName:currentFacName,
-      courseType:block.dataset.key, offered: offered ? 'YES' : 'NO',
-      courseCode:code, courseTitle:title, hoursPerWeek:hrs, assignedFaculty:fac
+      department    : dept,
+      semester      : SEM_LABELS[sem],
+      facultyName   : currentFacName,
+      courseType    : courseType,
+      offered       : offered ? 'YES' : 'NO',
+      courseCode    : codeEl  ? codeEl.value  || 'NA' : 'NA',
+      courseTitle   : titleEl ? titleEl.value || 'NA' : 'NA',
+      hoursPerWeek  : hrsEl   ? hrsEl.value   || 'NA' : 'NA',
+      assignedFaculty: facEl  ? facEl.value   || 'NA' : 'NA'
     });
   });
   return rows;
 }
 
-function showSuccessMessage(semValue){
-  const allSems=["1","2","3","4","5","6"];
-  const pending=allSems.filter(s=>!submittedSems.includes(s));
-  const allDone=pending.length===0;
-  document.getElementById('successSubtitle').textContent=`Data for ${SEM_LABELS[semValue]} has been recorded.`;
-  document.getElementById('msgName').innerHTML=`Dear <span style="color:#185FA5;font-style:italic;">${currentFacName}</span>,`;
-  let doneHtml=`<div class="done-section-title">&#10003; Semesters submitted by you:</div>`;
-  submittedSems.forEach(s=>{ doneHtml+=`<div class="done-item">&#9989; &nbsp;${SEM_LABELS[s]}</div>`; });
-  document.getElementById('doneListWrap').innerHTML=doneHtml;
-  if(allDone){
-    document.getElementById('pendingWrap').innerHTML='';
-    document.getElementById('allDoneWrap').style.display='block';
-    document.getElementById('nextBtn').style.display='none';
+function showSuccessMessage(semValue) {
+  const allSems = ["1","2","3","4","5","6"];
+  const pending = allSems.filter(s => !submittedSems.includes(s));
+  const allDone = pending.length === 0;
+
+  document.getElementById('successSubtitle').textContent = 'Data for ' + SEM_LABELS[semValue] + ' has been recorded.';
+  document.getElementById('msgName').innerHTML = 'Dear <span style="color:#185FA5;font-style:italic;">' + currentFacName + '</span>,';
+
+  let doneHtml = '<div class="done-section-title">&#10003; Semesters submitted by you:</div>';
+  submittedSems.forEach(s => { doneHtml += '<div class="done-item">&#9989; &nbsp;' + SEM_LABELS[s] + '</div>'; });
+  document.getElementById('doneListWrap').innerHTML = doneHtml;
+
+  if (allDone) {
+    document.getElementById('pendingWrap').innerHTML = '';
+    document.getElementById('allDoneWrap').style.display = 'block';
+    document.getElementById('nextBtn').style.display = 'none';
   } else {
-    let pendHtml=`<div class="pending-box"><div class="pending-title">&#9654; Please submit data for these semesters next:</div>`;
-    pending.forEach(s=>{ pendHtml+=`<div class="pending-item">&#9654; &nbsp;${SEM_LABELS[s]}</div>`; });
-    pendHtml+=`</div>`;
-    document.getElementById('pendingWrap').innerHTML=pendHtml;
-    document.getElementById('allDoneWrap').style.display='none';
-    document.getElementById('nextBtn').style.display='block';
+    let pendHtml = '<div class="pending-box"><div class="pending-title">&#9654; Please submit data for these semesters next:</div>';
+    pending.forEach(s => { pendHtml += '<div class="pending-item">&#9654; &nbsp;' + SEM_LABELS[s] + '</div>'; });
+    pendHtml += '</div>';
+    document.getElementById('pendingWrap').innerHTML = pendHtml;
+    document.getElementById('allDoneWrap').style.display = 'none';
+    document.getElementById('nextBtn').style.display = 'block';
   }
 }
 
-async function doSubmit(){
-  const dept=document.getElementById('dept').value;
-  const sem=document.getElementById('sem').value;
-  const facName=document.getElementById('facName').value.trim();
-  const errEl=document.getElementById('errMsg');
-  if(!dept||!sem||!facName){ errEl.style.display='block'; return; }
-  errEl.style.display='none';
-  if(submittedSems.includes(sem)){ alert(`You already submitted ${SEM_LABELS[sem]}. Please select a different semester.`); return; }
-  currentFacName=facName;
-  const rows=collectRows();
-  const btn=document.getElementById('submitBtn');
-  btn.disabled=true;
-  btn.innerHTML='&#8987; Saving to Time Table Folder...';
+async function doSubmit() {
+  const dept    = document.getElementById('dept').value;
+  const sem     = document.getElementById('sem').value;
+  const facName = document.getElementById('facName').value.trim();
+  const errEl   = document.getElementById('errMsg');
+
+  if (!dept || !sem || !facName) { errEl.style.display = 'block'; return; }
+  errEl.style.display = 'none';
+
+  if (submittedSems.includes(sem)) {
+    alert('You already submitted ' + SEM_LABELS[sem] + '. Please select a different semester.');
+    return;
+  }
+
+  currentFacName = facName;
+  const rows = collectRows();
+
+  if (rows.length === 0) { alert('No course data found. Please select a semester first.'); return; }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '&#8987; Saving to Time Table Folder...';
+
   try {
-    await Promise.all(rows.map(row=>fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(row)})));
+    // Send all rows one by one sequentially to avoid overload
+    for (const row of rows) {
+      await fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(row)
+      });
+    }
     submittedSems.push(sem);
     showSuccessMessage(sem);
-    document.getElementById('mainForm').style.display='none';
-    document.getElementById('successBox').style.display='block';
-    window.scrollTo(0,0);
-  } catch(err){
+    document.getElementById('mainForm').style.display = 'none';
+    document.getElementById('successBox').style.display = 'block';
+    window.scrollTo(0, 0);
+  } catch (err) {
     alert('Something went wrong. Please check your internet and try again.');
-    btn.disabled=false;
-    btn.innerHTML='&#128193; &nbsp; Push to Time Table Folder';
+    btn.disabled = false;
+    btn.innerHTML = '&#128193; &nbsp; Push to Time Table Folder';
   }
 }
 
-function doReset(){
-  document.getElementById('mainForm').style.display='block';
-  document.getElementById('successBox').style.display='none';
-  document.getElementById('dept').value='';
-  document.getElementById('sem').value='';
-  const btn=document.getElementById('submitBtn');
-  btn.disabled=false;
-  btn.innerHTML='&#128193; &nbsp; Push to Time Table Folder';
-  document.querySelectorAll('.sem-sec').forEach(el=>el.classList.remove('active'));
-  // Reset all blocks back to NO / NA
-  document.querySelectorAll('.course-block').forEach(block=>{
-    const uid=block.id.replace('block_','');
-    const yesBtn=block.querySelector('.toggle-btn.yes');
-    const noBtn=block.querySelector('.toggle-btn.no');
-    if(yesBtn) yesBtn.classList.remove('active');
-    if(noBtn) noBtn.classList.add('active');
-    const fieldsEl=document.getElementById('fields_'+uid);
-    if(fieldsEl) fieldsEl.classList.remove('visible');
-    ['code','title','hrs','fac'].forEach(f=>{
-      const el=document.getElementById(f+'_'+uid);
-      if(el){ el.disabled=true; el.value='NA'; }
+function doReset() {
+  document.getElementById('mainForm').style.display = 'block';
+  document.getElementById('successBox').style.display = 'none';
+  document.getElementById('dept').value = '';
+  document.getElementById('sem').value = '';
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = false;
+  btn.innerHTML = '&#128193; &nbsp; Push to Time Table Folder';
+  document.querySelectorAll('.sem-sec').forEach(el => el.classList.remove('active'));
+
+  document.querySelectorAll('.course-block').forEach(block => {
+    const uid    = block.dataset.uid;
+    const yesBtn = block.querySelector('.toggle-btn.yes');
+    const noBtn  = block.querySelector('.toggle-btn.no');
+    if (yesBtn) yesBtn.classList.remove('active');
+    if (noBtn)  noBtn.classList.add('active');
+    const fieldsEl = document.getElementById('fields_' + uid);
+    if (fieldsEl) fieldsEl.classList.remove('visible');
+    ['code','title','hrs','fac'].forEach(f => {
+      const el = document.getElementById(f + '_' + uid);
+      if (el) { el.disabled = true; el.value = 'NA'; }
     });
   });
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
 }
 </script>
 </body>
