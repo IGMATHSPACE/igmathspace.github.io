@@ -38,10 +38,26 @@ body { font-family: 'Times New Roman', Times, serif; background: #f0f4f8; color:
 .note { background: #eaf3fb; border-left: 3px solid #185FA5; border-radius: 0 7px 7px 0; padding: 7px 12px; font-size: 11px; color: #444; margin-bottom: 0.85rem; line-height: 1.6; }
 .sem-sec { display: none; }
 .sem-sec.active { display: block; }
-.submit-btn { width: 100%; padding: 15px; background: #0a3d62; color: #fff; border: none; border-radius: 9px; font-size: 16px; font-weight: 700; font-family: 'Times New Roman', Times, serif; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 1rem; transition: background 0.2s; }
+.aec-block { }
+.hidden { display: none !important; }
+
+/* BUTTON ROW */
+.btn-row { display: flex; gap: 10px; margin-top: 1rem; }
+.submit-btn { flex: 2; padding: 15px; background: #0a3d62; color: #fff; border: none; border-radius: 9px; font-size: 15px; font-weight: 700; font-family: 'Times New Roman', Times, serif; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background 0.2s; }
 .submit-btn:hover { background: #185FA5; }
 .submit-btn:disabled { background: #999; cursor: not-allowed; }
+.preview-btn { flex: 1; padding: 15px; background: #6c3483; color: #fff; border: none; border-radius: 9px; font-size: 15px; font-weight: 700; font-family: 'Times New Roman', Times, serif; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background 0.2s; }
+.preview-btn:hover { background: #5b2c6f; }
+
 .footer-note { text-align: center; font-size: 11px; color: #888; margin-top: 1.2rem; line-height: 2; border-top: 1px solid #dde4ed; padding-top: 1rem; }
+
+/* ALREADY ENTERED WARNING */
+.already-box { background: #fff3cd; border: 1px solid #ffc107; border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1rem; display: none; }
+.already-box p { font-size: 13px; color: #7d5a00; font-weight: 600; margin-bottom: 10px; }
+.edit-btn { padding: 8px 22px; background: #e67e22; color: #fff; border: none; border-radius: 7px; font-size: 13px; font-weight: 700; font-family: 'Times New Roman', Times, serif; cursor: pointer; }
+.edit-btn:hover { background: #ca6f1e; }
+
+/* SUCCESS */
 .success-box { display: none; background: #fff; border-radius: 12px; border: 1px solid #dde4ed; box-shadow: 0 2px 8px rgba(0,0,0,0.06); overflow: hidden; margin-bottom: 2rem; }
 .success-top { background: #0a3d62; color: #fff; padding: 2rem 1.5rem; text-align: center; }
 .success-top .tick { font-size: 52px; }
@@ -62,6 +78,26 @@ body { font-family: 'Times New Roman', Times, serif; background: #f0f4f8; color:
 .next-btn { width: 100%; padding: 13px; background: #185FA5; color: #fff; border: none; border-radius: 8px; font-size: 15px; font-weight: 700; font-family: 'Times New Roman', Times, serif; cursor: pointer; margin-top: 4px; transition: background 0.2s; }
 .next-btn:hover { background: #0a3d62; }
 .err-msg { color: #c0392b; font-size: 12px; margin-top: 8px; display: none; text-align: center; font-weight: 600; }
+
+/* PDF PREVIEW */
+.pdf-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.6); z-index: 1000; overflow-y: auto; padding: 2rem 1rem; }
+.pdf-box { max-width: 720px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 2rem; position: relative; }
+.pdf-box h2 { font-size: 18px; color: #0a3d62; text-align: center; margin-bottom: 4px; }
+.pdf-box h3 { font-size: 14px; color: #555; text-align: center; margin-bottom: 1.5rem; font-weight: 400; }
+.pdf-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 1rem; }
+.pdf-table th { background: #0a3d62; color: #fff; padding: 8px; text-align: left; font-size: 11px; }
+.pdf-table td { padding: 7px 8px; border-bottom: 1px solid #eee; vertical-align: top; }
+.pdf-table tr:nth-child(even) td { background: #f7f9fc; }
+.pdf-sem-title { background: #e8f1fb; font-weight: 700; color: #0a3d62; font-size: 12px; padding: 8px; margin: 10px 0 4px; border-radius: 5px; }
+.pdf-actions { display: flex; gap: 10px; margin-top: 1.5rem; }
+.pdf-print-btn { flex: 1; padding: 12px; background: #0a3d62; color: #fff; border: none; border-radius: 7px; font-size: 14px; font-weight: 700; font-family: 'Times New Roman', Times, serif; cursor: pointer; }
+.pdf-close-btn { flex: 1; padding: 12px; background: #888; color: #fff; border: none; border-radius: 7px; font-size: 14px; font-weight: 700; font-family: 'Times New Roman', Times, serif; cursor: pointer; }
+@media print {
+  body > * { display: none !important; }
+  .pdf-overlay { display: block !important; position: static !important; background: none !important; padding: 0 !important; }
+  .pdf-box { box-shadow: none !important; border-radius: 0 !important; }
+  .pdf-actions { display: none !important; }
+}
 </style>
 </head>
 <body>
@@ -78,7 +114,7 @@ body { font-family: 'Times New Roman', Times, serif; background: #f0f4f8; color:
     <div class="sec-title">&#127979; Department &amp; Semester</div>
     <div class="fg">
       <label>Department <span class="req">*</span></label>
-      <select id="dept">
+      <select id="dept" onchange="onDeptChange()">
         <option value="">— Select Department —</option>
         <option>English</option><option>History</option><option>Computer Science</option>
         <option>Mathematics</option><option>Polymer Chemistry</option><option>Commerce</option>
@@ -90,7 +126,7 @@ body { font-family: 'Times New Roman', Times, serif; background: #f0f4f8; color:
     </div>
     <div class="fg">
       <label>Semester <span class="req">*</span></label>
-      <select id="sem" onchange="showSem()">
+      <select id="sem" onchange="onSemChange()">
         <option value="">— Select Semester —</option>
         <option value="1">Semester 1 (Odd)</option>
         <option value="2">Semester 2 (Even)</option>
@@ -102,46 +138,58 @@ body { font-family: 'Times New Roman', Times, serif; background: #f0f4f8; color:
     </div>
   </div>
 
+  <!-- ALREADY ENTERED WARNING -->
+  <div class="already-box" id="alreadyBox">
+    <p id="alreadyMsg"></p>
+    <button class="edit-btn" onclick="doEdit()">&#9998; Edit Previously Entered Data</button>
+  </div>
+
+  <!-- SEM 1 -->
   <div class="sem-sec card" id="s1">
     <div class="sec-title">&#127979; Semester 1 &mdash; Odd</div>
-    <div class="note">1 Major &middot; 2 Minors &middot; 1 MDC &middot; AEC English (5 batches) &middot; AEC Language &mdash; 3 streams each</div>
-    <div class="sub-title">Major &amp; Minor Courses</div><div id="s1_core"></div>
-    <div class="sub-title">AEC &mdash; English (5 Batches)</div><div id="s1_aec_eng"></div>
-    <div class="sub-title">AEC &mdash; Arabic (3 Streams)</div><div id="s1_arab"></div>
-    <div class="sub-title">AEC &mdash; Hindi (3 Streams)</div><div id="s1_hin"></div>
-    <div class="sub-title">AEC &mdash; Malayalam (3 Streams)</div><div id="s1_mal"></div>
-    <div class="sub-title">AEC &mdash; Urdu (3 Streams)</div><div id="s1_urd"></div>
+    <div class="note" id="s1note"></div>
+    <div id="s1_major_block"><div class="sub-title">Major &amp; Minor Courses</div><div id="s1_core"></div></div>
+    <div id="s1_aec_eng_block" class="aec-block"><div class="sub-title">AEC &mdash; English (5 Batches)</div><div id="s1_aec_eng"></div></div>
+    <div id="s1_arab_block" class="aec-block"><div class="sub-title">AEC &mdash; Arabic (3 Streams)</div><div id="s1_arab"></div></div>
+    <div id="s1_hin_block" class="aec-block"><div class="sub-title">AEC &mdash; Hindi (3 Streams)</div><div id="s1_hin"></div></div>
+    <div id="s1_mal_block" class="aec-block"><div class="sub-title">AEC &mdash; Malayalam (3 Streams)</div><div id="s1_mal"></div></div>
+    <div id="s1_urd_block" class="aec-block"><div class="sub-title">AEC &mdash; Urdu (3 Streams)</div><div id="s1_urd"></div></div>
   </div>
 
+  <!-- SEM 2 -->
   <div class="sem-sec card" id="s2">
     <div class="sec-title">&#127979; Semester 2 &mdash; Even</div>
-    <div class="note">1 Major &middot; 2 Minors &middot; 1 MDC &middot; AEC English (5 batches) &middot; AEC Language &mdash; 3 streams each</div>
-    <div class="sub-title">Major &amp; Minor Courses</div><div id="s2_core"></div>
-    <div class="sub-title">AEC &mdash; English (5 Batches)</div><div id="s2_aec_eng"></div>
-    <div class="sub-title">AEC &mdash; Arabic (3 Streams)</div><div id="s2_arab"></div>
-    <div class="sub-title">AEC &mdash; Hindi (3 Streams)</div><div id="s2_hin"></div>
-    <div class="sub-title">AEC &mdash; Malayalam (3 Streams)</div><div id="s2_mal"></div>
-    <div class="sub-title">AEC &mdash; Urdu (3 Streams)</div><div id="s2_urd"></div>
+    <div class="note" id="s2note"></div>
+    <div id="s2_major_block"><div class="sub-title">Major &amp; Minor Courses</div><div id="s2_core"></div></div>
+    <div id="s2_aec_eng_block" class="aec-block"><div class="sub-title">AEC &mdash; English (5 Batches)</div><div id="s2_aec_eng"></div></div>
+    <div id="s2_arab_block" class="aec-block"><div class="sub-title">AEC &mdash; Arabic (3 Streams)</div><div id="s2_arab"></div></div>
+    <div id="s2_hin_block" class="aec-block"><div class="sub-title">AEC &mdash; Hindi (3 Streams)</div><div id="s2_hin"></div></div>
+    <div id="s2_mal_block" class="aec-block"><div class="sub-title">AEC &mdash; Malayalam (3 Streams)</div><div id="s2_mal"></div></div>
+    <div id="s2_urd_block" class="aec-block"><div class="sub-title">AEC &mdash; Urdu (3 Streams)</div><div id="s2_urd"></div></div>
   </div>
 
+  <!-- SEM 3 -->
   <div class="sem-sec card" id="s3">
     <div class="sec-title">&#127979; Semester 3 &mdash; Odd</div>
     <div class="note">2 Majors &middot; 2 Minors &middot; 1 VAC &middot; 1 MDC</div>
     <div id="s3_core"></div>
   </div>
 
+  <!-- SEM 4 -->
   <div class="sem-sec card" id="s4">
     <div class="sec-title">&#127979; Semester 4 &mdash; Even</div>
     <div class="note">2 Majors &middot; 1 Minor &middot; 2 VAC &middot; 1 SEC</div>
     <div id="s4_core"></div>
   </div>
 
+  <!-- SEM 5 -->
   <div class="sem-sec card" id="s5">
     <div class="sec-title">&#127979; Semester 5 &mdash; Odd</div>
     <div class="note">5 Majors &middot; 1 SEC</div>
     <div id="s5_core"></div>
   </div>
 
+  <!-- SEM 6 -->
   <div class="sem-sec card" id="s6">
     <div class="sec-title">&#127979; Semester 6 &mdash; Even</div>
     <div class="note">5 Majors &middot; 1 SEC</div>
@@ -157,15 +205,17 @@ body { font-family: 'Times New Roman', Times, serif; background: #f0f4f8; color:
   </div>
 
   <div class="err-msg" id="errMsg">&#9888; Please fill in Department, Semester and Faculty Name before submitting.</div>
-  <button class="submit-btn" id="submitBtn" onclick="doSubmit()">
-    &#128193; &nbsp; Push to Time Table Folder
-  </button>
+  <div class="btn-row">
+    <button class="submit-btn" id="submitBtn" onclick="doSubmit()">&#128193; Push to Time Table Folder</button>
+    <button class="preview-btn" onclick="doPreview()">&#128196; Preview PDF</button>
+  </div>
   <div class="footer-note">
     Prepared by: <strong>Gafoor I</strong>, FYUGP Coordinator &nbsp;|&nbsp; Department of Mathematics<br>
     NAM College Kallikkandy
   </div>
 </div>
 
+<!-- SUCCESS BOX -->
 <div class="success-box" id="successBox">
   <div class="success-top">
     <div class="tick">&#10004;</div>
@@ -178,10 +228,23 @@ body { font-family: 'Times New Roman', Times, serif; background: #f0f4f8; color:
     <div id="pendingWrap"></div>
     <div id="allDoneWrap" class="all-done-box" style="display:none;">
       <div class="big">&#127881;</div>
-      <h4>You have completed all 6 Semesters!</h4>
+      <h4>You have completed all required Semesters!</h4>
       <p>Thank you so much, your data has been fully recorded.<br>The FYUGP Coordinator will now consolidate everything.</p>
     </div>
     <button class="next-btn" id="nextBtn" onclick="doReset()">&#8594; &nbsp;Submit Next Semester</button>
+  </div>
+</div>
+
+<!-- PDF PREVIEW OVERLAY -->
+<div class="pdf-overlay" id="pdfOverlay">
+  <div class="pdf-box" id="pdfBox">
+    <h2>NAM COLLEGE KALLIKKANDY</h2>
+    <h3>FYUGP Course Details 2026-27 &mdash; For Time Table</h3>
+    <div id="pdfContent"></div>
+    <div class="pdf-actions">
+      <button class="pdf-print-btn" onclick="window.print()">&#128424; Print / Save as PDF</button>
+      <button class="pdf-close-btn" onclick="closePdf()">&#10005; Close</button>
+    </div>
   </div>
 </div>
 
@@ -190,19 +253,24 @@ body { font-family: 'Times New Roman', Times, serif; background: #f0f4f8; color:
 const SHEET_URL = "https://script.google.com/macros/s/AKfycbxHRCinyFYpSL5c0ztjZx7V5Rm1zAh22mBoX6AQh9C_GTobqWanCzEkJFUBacQcAF4/exec";
 const SEM_LABELS = {"1":"Semester 1 (Odd)","2":"Semester 2 (Even)","3":"Semester 3 (Odd)","4":"Semester 4 (Even)","5":"Semester 5 (Odd)","6":"Semester 6 (Even)"};
 
-// Global counter for unique safe IDs
-let blockCounter = 0;
-// Store mapping: safeId -> courseType label
-const blockMap = {};
+// Departments that have NO major courses and only need Sem 1-4
+const NO_MAJOR_DEPTS = ['Statistics','Arabic','Hindi','Malayalam','Urdu','Journalism','Physics','Economics','Sociology','Physical Education','Library Science'];
 
+// AEC English departments
+const AEC_ENG_ONLY_DEPTS = ['English'];
+// AEC Language departments
+const AEC_LANG_MAP = { 'Arabic':'arab', 'Hindi':'hin', 'Malayalam':'mal', 'Urdu':'urd' };
+
+let blockCounter = 0;
+// submittedData: { semValue: [ {courseType, offered, courseCode, courseTitle, hoursPerWeek, assignedFaculty}, ... ] }
+let submittedData = {};
 let submittedSems = [];
 let currentFacName = "";
+let editingSem = null;
 
-// Generate a safe numeric ID for each block
 function cb(label, courseTypeLabel) {
   blockCounter++;
   const uid = 'b' + blockCounter;
-  blockMap[uid] = courseTypeLabel;
   return `<div class="course-block" data-uid="${uid}" data-coursetype="${courseTypeLabel}">
     <div class="cb-label">${label}</div>
     <div class="offer-row">
@@ -214,247 +282,390 @@ function cb(label, courseTypeLabel) {
     </div>
     <div class="course-fields" id="fields_${uid}">
       <div class="fr2">
-        <div class="fg"><label>Course Code</label>
-          <input type="text" id="code_${uid}" placeholder="e.g. MAT501" />
-        </div>
-        <div class="fg"><label>Course Title</label>
-          <input type="text" id="title_${uid}" placeholder="Full course title" />
-        </div>
+        <div class="fg"><label>Course Code</label><input type="text" id="code_${uid}" placeholder="e.g. MAT501" disabled value="NA"/></div>
+        <div class="fg"><label>Course Title</label><input type="text" id="title_${uid}" placeholder="Full course title" disabled value="NA"/></div>
       </div>
       <div class="fr2">
-        <div class="fg"><label>Hours / Week</label>
-          <input type="number" id="hrs_${uid}" min="1" max="10" placeholder="e.g. 4" />
-        </div>
-        <div class="fg"><label>Faculty In Charge</label>
-          <input type="text" id="fac_${uid}" placeholder="Faculty name" />
-        </div>
+        <div class="fg"><label>Hours / Week</label><input type="number" id="hrs_${uid}" min="1" max="10" placeholder="e.g. 4" disabled value="NA"/></div>
+        <div class="fg"><label>Faculty In Charge</label><input type="text" id="fac_${uid}" placeholder="Faculty name" disabled value="NA"/></div>
       </div>
     </div>
   </div>`;
 }
 
 function toggleOffer(uid, choice) {
-  const fieldsEl = document.getElementById('fields_' + uid);
-  const allBlocks = document.querySelectorAll('[data-uid="' + uid + '"]');
-  let yesBtn, noBtn;
-  allBlocks.forEach(b => {
-    yesBtn = b.querySelector('.toggle-btn.yes');
-    noBtn  = b.querySelector('.toggle-btn.no');
-  });
-  if (choice === 'yes') {
-    yesBtn.classList.add('active');
-    noBtn.classList.remove('active');
+  const block = document.querySelector('[data-uid="'+uid+'"]');
+  const fieldsEl = document.getElementById('fields_'+uid);
+  const yesBtn = block.querySelector('.toggle-btn.yes');
+  const noBtn  = block.querySelector('.toggle-btn.no');
+  if (choice==='yes') {
+    yesBtn.classList.add('active'); noBtn.classList.remove('active');
     fieldsEl.classList.add('visible');
-    ['code','title','hrs','fac'].forEach(f => {
-      const el = document.getElementById(f + '_' + uid);
-      if (el) { el.disabled = false; if(el.value==='NA') el.value = ''; }
+    ['code','title','hrs','fac'].forEach(f=>{
+      const el=document.getElementById(f+'_'+uid);
+      if(el){el.disabled=false; if(el.value==='NA')el.value='';}
     });
   } else {
-    noBtn.classList.add('active');
-    yesBtn.classList.remove('active');
+    noBtn.classList.add('active'); yesBtn.classList.remove('active');
     fieldsEl.classList.remove('visible');
-    ['code','title','hrs','fac'].forEach(f => {
-      const el = document.getElementById(f + '_' + uid);
-      if (el) { el.disabled = true; el.value = 'NA'; }
+    ['code','title','hrs','fac'].forEach(f=>{
+      const el=document.getElementById(f+'_'+uid);
+      if(el){el.disabled=true; el.value='NA';}
     });
   }
 }
 
-function aecEng(s) {
-  const batches = ['Commerce','PC and CS','Mathematics','History','English'];
-  return batches.map(n => cb('AEC English — ' + n + ' Batch', 'SEM' + s + '_AEC_ENG_' + n.replace(/\s/g,'_'))).join('');
+function aecEng(s){
+  return ['Commerce','PC and CS','Mathematics','History','English']
+    .map(n=>cb('AEC English — '+n+' Batch','SEM'+s+'_AEC_ENG_'+n.replace(/\s/g,'_'))).join('');
 }
-function aecLang(s, lang) {
-  const streams = ['Commerce','Science','Arts'];
-  return streams.map(n => cb('AEC ' + lang + ' — ' + n + ' Stream', 'SEM' + s + '_AEC_' + lang + '_' + n)).join('');
+function aecLang(s,lang){
+  return ['Commerce','Science','Arts']
+    .map(n=>cb('AEC '+lang+' — '+n+' Stream','SEM'+s+'_AEC_'+lang+'_'+n)).join('');
 }
 
-function buildAll() {
-  blockCounter = 0;
-  document.getElementById('s1_core').innerHTML =
-    cb('Major — 1','SEM1_MAJ1') + cb('Minor — 1','SEM1_MIN1') +
-    cb('Minor — 2','SEM1_MIN2') + cb('MDC','SEM1_MDC');
-  document.getElementById('s1_aec_eng').innerHTML = aecEng(1);
-  document.getElementById('s1_arab').innerHTML = aecLang(1,'Arabic');
-  document.getElementById('s1_hin').innerHTML  = aecLang(1,'Hindi');
-  document.getElementById('s1_mal').innerHTML  = aecLang(1,'Malayalam');
-  document.getElementById('s1_urd').innerHTML  = aecLang(1,'Urdu');
-
-  document.getElementById('s2_core').innerHTML =
-    cb('Major — 1','SEM2_MAJ1') + cb('Minor — 1','SEM2_MIN1') +
-    cb('Minor — 2','SEM2_MIN2') + cb('MDC','SEM2_MDC');
-  document.getElementById('s2_aec_eng').innerHTML = aecEng(2);
-  document.getElementById('s2_arab').innerHTML = aecLang(2,'Arabic');
-  document.getElementById('s2_hin').innerHTML  = aecLang(2,'Hindi');
-  document.getElementById('s2_mal').innerHTML  = aecLang(2,'Malayalam');
-  document.getElementById('s2_urd').innerHTML  = aecLang(2,'Urdu');
-
-  document.getElementById('s3_core').innerHTML =
-    cb('Major — 1','SEM3_MAJ1') + cb('Major — 2','SEM3_MAJ2') +
-    cb('Minor — 1','SEM3_MIN1') + cb('Minor — 2','SEM3_MIN2') +
-    cb('VAC','SEM3_VAC') + cb('MDC','SEM3_MDC');
-
-  document.getElementById('s4_core').innerHTML =
-    cb('Major — 1','SEM4_MAJ1') + cb('Major — 2','SEM4_MAJ2') +
-    cb('Minor — 1','SEM4_MIN1') +
-    cb('VAC — 1','SEM4_VAC1') + cb('VAC — 2','SEM4_VAC2') +
-    cb('SEC','SEM4_SEC');
-
-  document.getElementById('s5_core').innerHTML =
-    cb('Major — 1','SEM5_MAJ1') + cb('Major — 2','SEM5_MAJ2') +
-    cb('Major — 3','SEM5_MAJ3') + cb('Major — 4','SEM5_MAJ4') +
-    cb('Major — 5','SEM5_MAJ5') + cb('SEC','SEM5_SEC');
-
-  document.getElementById('s6_core').innerHTML =
-    cb('Major — 1','SEM6_MAJ1') + cb('Major — 2','SEM6_MAJ2') +
-    cb('Major — 3','SEM6_MAJ3') + cb('Major — 4','SEM6_MAJ4') +
-    cb('Major — 5','SEM6_MAJ5') + cb('SEC','SEM6_SEC');
-
-  // Set all inputs to NA + disabled by default
-  document.querySelectorAll('.course-block').forEach(block => {
-    const uid = block.dataset.uid;
-    ['code','title','hrs','fac'].forEach(f => {
-      const el = document.getElementById(f + '_' + uid);
-      if (el) { el.disabled = true; el.value = 'NA'; }
-    });
-  });
+function buildAll(){
+  blockCounter=0;
+  // Sem 1
+  document.getElementById('s1_core').innerHTML=cb('Major — 1','SEM1_MAJ1')+cb('Minor — 1','SEM1_MIN1')+cb('Minor — 2','SEM1_MIN2')+cb('MDC','SEM1_MDC');
+  document.getElementById('s1_aec_eng').innerHTML=aecEng(1);
+  document.getElementById('s1_arab').innerHTML=aecLang(1,'Arabic');
+  document.getElementById('s1_hin').innerHTML=aecLang(1,'Hindi');
+  document.getElementById('s1_mal').innerHTML=aecLang(1,'Malayalam');
+  document.getElementById('s1_urd').innerHTML=aecLang(1,'Urdu');
+  // Sem 2
+  document.getElementById('s2_core').innerHTML=cb('Major — 1','SEM2_MAJ1')+cb('Minor — 1','SEM2_MIN1')+cb('Minor — 2','SEM2_MIN2')+cb('MDC','SEM2_MDC');
+  document.getElementById('s2_aec_eng').innerHTML=aecEng(2);
+  document.getElementById('s2_arab').innerHTML=aecLang(2,'Arabic');
+  document.getElementById('s2_hin').innerHTML=aecLang(2,'Hindi');
+  document.getElementById('s2_mal').innerHTML=aecLang(2,'Malayalam');
+  document.getElementById('s2_urd').innerHTML=aecLang(2,'Urdu');
+  // Sem 3
+  document.getElementById('s3_core').innerHTML=cb('Major — 1','SEM3_MAJ1')+cb('Major — 2','SEM3_MAJ2')+cb('Minor — 1','SEM3_MIN1')+cb('Minor — 2','SEM3_MIN2')+cb('VAC','SEM3_VAC')+cb('MDC','SEM3_MDC');
+  // Sem 4
+  document.getElementById('s4_core').innerHTML=cb('Major — 1','SEM4_MAJ1')+cb('Major — 2','SEM4_MAJ2')+cb('Minor — 1','SEM4_MIN1')+cb('VAC — 1','SEM4_VAC1')+cb('VAC — 2','SEM4_VAC2')+cb('SEC','SEM4_SEC');
+  // Sem 5
+  document.getElementById('s5_core').innerHTML=cb('Major — 1','SEM5_MAJ1')+cb('Major — 2','SEM5_MAJ2')+cb('Major — 3','SEM5_MAJ3')+cb('Major — 4','SEM5_MAJ4')+cb('Major — 5','SEM5_MAJ5')+cb('SEC','SEM5_SEC');
+  // Sem 6
+  document.getElementById('s6_core').innerHTML=cb('Major — 1','SEM6_MAJ1')+cb('Major — 2','SEM6_MAJ2')+cb('Major — 3','SEM6_MAJ3')+cb('Major — 4','SEM6_MAJ4')+cb('Major — 5','SEM6_MAJ5')+cb('SEC','SEM6_SEC');
 }
 buildAll();
 
-function showSem() {
-  document.querySelectorAll('.sem-sec').forEach(el => el.classList.remove('active'));
-  const v = document.getElementById('sem').value;
-  if (v) document.getElementById('s' + v).classList.add('active');
+// ---- DEPARTMENT CHANGE ----
+function onDeptChange(){
+  const dept = document.getElementById('dept').value;
+  const sem  = document.getElementById('sem').value;
+  applyDeptRules(dept);
+  if(sem) checkAlready(sem);
 }
 
-function collectRows() {
+function applyDeptRules(dept){
+  const isNoMajor = NO_MAJOR_DEPTS.includes(dept);
+  const semOpt5 = document.querySelector('#sem option[value="5"]');
+  const semOpt6 = document.querySelector('#sem option[value="6"]');
+
+  // Hide/show Sem 5 and 6 options
+  if(isNoMajor){
+    if(semOpt5) semOpt5.style.display='none';
+    if(semOpt6) semOpt6.style.display='none';
+    // If currently on 5 or 6, reset
+    const semVal = document.getElementById('sem').value;
+    if(semVal==='5'||semVal==='6'){
+      document.getElementById('sem').value='';
+      document.querySelectorAll('.sem-sec').forEach(el=>el.classList.remove('active'));
+    }
+    // Hide major blocks in sem 1-4
+    ['s1_major_block','s2_major_block'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el) el.classList.add('hidden');
+    });
+    // Hide major in s3_core and s4_core — just hide sem 3 and 4 major course blocks
+    hideBlocksByType(['SEM3_MAJ1','SEM3_MAJ2','SEM4_MAJ1','SEM4_MAJ2','SEM4_MIN1','SEM5_MAJ1','SEM5_MAJ2','SEM5_MAJ3','SEM5_MAJ4','SEM5_MAJ5','SEM5_SEC','SEM6_MAJ1','SEM6_MAJ2','SEM6_MAJ3','SEM6_MAJ4','SEM6_MAJ5','SEM6_SEC']);
+  } else {
+    if(semOpt5) semOpt5.style.display='';
+    if(semOpt6) semOpt6.style.display='';
+    ['s1_major_block','s2_major_block'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el) el.classList.remove('hidden');
+    });
+    showBlocksByType(['SEM3_MAJ1','SEM3_MAJ2','SEM4_MAJ1','SEM4_MAJ2','SEM4_MIN1','SEM5_MAJ1','SEM5_MAJ2','SEM5_MAJ3','SEM5_MAJ4','SEM5_MAJ5','SEM5_SEC','SEM6_MAJ1','SEM6_MAJ2','SEM6_MAJ3','SEM6_MAJ4','SEM6_MAJ5','SEM6_SEC']);
+  }
+
+  // AEC visibility for Sem 1 and 2
+  [1,2].forEach(s=>{
+    const engBlock  = document.getElementById('s'+s+'_aec_eng_block');
+    const arabBlock = document.getElementById('s'+s+'_arab_block');
+    const hinBlock  = document.getElementById('s'+s+'_hin_block');
+    const malBlock  = document.getElementById('s'+s+'_mal_block');
+    const urdBlock  = document.getElementById('s'+s+'_urd_block');
+
+    // Hide all first
+    [engBlock,arabBlock,hinBlock,malBlock,urdBlock].forEach(b=>{ if(b) b.classList.add('hidden'); });
+
+    if(dept==='English'){
+      if(engBlock) engBlock.classList.remove('hidden');
+    } else if(dept==='Arabic'){
+      if(arabBlock) arabBlock.classList.remove('hidden');
+    } else if(dept==='Hindi'){
+      if(hinBlock) hinBlock.classList.remove('hidden');
+    } else if(dept==='Malayalam'){
+      if(malBlock) malBlock.classList.remove('hidden');
+    } else if(dept==='Urdu'){
+      if(urdBlock) urdBlock.classList.remove('hidden');
+    }
+    // For all other departments — all AEC blocks stay hidden
+  });
+
+  // Update notes
+  updateNotes(dept, s=>{});
+}
+
+function hideBlocksByType(types){
+  types.forEach(t=>{
+    document.querySelectorAll('[data-coursetype="'+t+'"]').forEach(b=>b.classList.add('hidden'));
+  });
+}
+function showBlocksByType(types){
+  types.forEach(t=>{
+    document.querySelectorAll('[data-coursetype="'+t+'"]').forEach(b=>b.classList.remove('hidden'));
+  });
+}
+
+function updateNotes(dept, cb){
+  const isNoMajor = NO_MAJOR_DEPTS.includes(dept);
+  const n1 = document.getElementById('s1note');
+  const n2 = document.getElementById('s2note');
+  if(isNoMajor){
+    const aecInfo = AEC_LANG_MAP[dept] ? 'AEC '+dept+' (3 Streams)' : (dept==='English'?'AEC English (5 Batches)':'No AEC');
+    if(n1) n1.textContent = '2 Minors \u00B7 1 MDC \u00B7 '+aecInfo;
+    if(n2) n2.textContent = '2 Minors \u00B7 1 MDC \u00B7 '+aecInfo;
+  } else {
+    const aecInfo = dept==='English'?'AEC English (5 Batches)':(AEC_LANG_MAP[dept]?'AEC '+dept+' (3 Streams)':'');
+    if(n1) n1.textContent = '1 Major \u00B7 2 Minors \u00B7 1 MDC'+(aecInfo?' \u00B7 '+aecInfo:'');
+    if(n2) n2.textContent = '1 Major \u00B7 2 Minors \u00B7 1 MDC'+(aecInfo?' \u00B7 '+aecInfo:'');
+  }
+}
+
+// ---- SEMESTER CHANGE ----
+function onSemChange(){
+  document.querySelectorAll('.sem-sec').forEach(el=>el.classList.remove('active'));
+  const v = document.getElementById('sem').value;
+  if(v){
+    document.getElementById('s'+v).classList.add('active');
+    checkAlready(v);
+  }
+}
+
+function checkAlready(semVal){
+  const alreadyBox = document.getElementById('alreadyBox');
+  const alreadyMsg = document.getElementById('alreadyMsg');
+  if(submittedData[semVal] && !editingSem){
+    alreadyMsg.textContent = '⚠️ You have already entered data for '+SEM_LABELS[semVal]+'. If you need to make changes, click Edit below.';
+    alreadyBox.style.display='block';
+  } else {
+    alreadyBox.style.display='none';
+  }
+}
+
+function doEdit(){
+  const sem = document.getElementById('sem').value;
+  if(!sem) return;
+  editingSem = sem;
+  document.getElementById('alreadyBox').style.display='none';
+  // Restore saved data into fields
+  const savedRows = submittedData[sem];
+  if(!savedRows) return;
+  savedRows.forEach(row=>{
+    // Find block by courseType
+    const block = document.querySelector('[data-coursetype="'+row.courseType+'"]');
+    if(!block) return;
+    const uid = block.dataset.uid;
+    const yesBtn = block.querySelector('.toggle-btn.yes');
+    const noBtn  = block.querySelector('.toggle-btn.no');
+    if(row.offered==='YES'){
+      yesBtn.classList.add('active'); noBtn.classList.remove('active');
+      document.getElementById('fields_'+uid).classList.add('visible');
+      const codeEl=document.getElementById('code_'+uid);
+      const titleEl=document.getElementById('title_'+uid);
+      const hrsEl=document.getElementById('hrs_'+uid);
+      const facEl=document.getElementById('fac_'+uid);
+      if(codeEl){codeEl.disabled=false; codeEl.value=row.courseCode||'';}
+      if(titleEl){titleEl.disabled=false; titleEl.value=row.courseTitle||'';}
+      if(hrsEl){hrsEl.disabled=false; hrsEl.value=row.hoursPerWeek||'';}
+      if(facEl){facEl.disabled=false; facEl.value=row.assignedFaculty||'';}
+    } else {
+      noBtn.classList.add('active'); yesBtn.classList.remove('active');
+    }
+  });
+}
+
+// ---- COLLECT ROWS ----
+function collectRows(){
   const dept = document.getElementById('dept').value;
   const sem  = document.getElementById('sem').value;
   const rows = [];
-  const sec  = document.getElementById('s' + sem);
-  if (!sec) return rows;
-
-  sec.querySelectorAll('.course-block').forEach(block => {
+  const sec  = document.getElementById('s'+sem);
+  if(!sec) return rows;
+  sec.querySelectorAll('.course-block:not(.hidden)').forEach(block=>{
     const uid        = block.dataset.uid;
     const courseType = block.dataset.coursetype;
     const yesBtn     = block.querySelector('.toggle-btn.yes');
-    const offered    = yesBtn ? yesBtn.classList.contains('active') : false;
-
-    const codeEl  = document.getElementById('code_'  + uid);
-    const titleEl = document.getElementById('title_' + uid);
-    const hrsEl   = document.getElementById('hrs_'   + uid);
-    const facEl   = document.getElementById('fac_'   + uid);
-
+    const offered    = yesBtn?yesBtn.classList.contains('active'):false;
+    const codeEl     = document.getElementById('code_'+uid);
+    const titleEl    = document.getElementById('title_'+uid);
+    const hrsEl      = document.getElementById('hrs_'+uid);
+    const facEl      = document.getElementById('fac_'+uid);
     rows.push({
-      department    : dept,
-      semester      : SEM_LABELS[sem],
-      facultyName   : currentFacName,
-      courseType    : courseType,
-      offered       : offered ? 'YES' : 'NO',
-      courseCode    : codeEl  ? codeEl.value  || 'NA' : 'NA',
-      courseTitle   : titleEl ? titleEl.value || 'NA' : 'NA',
-      hoursPerWeek  : hrsEl   ? hrsEl.value   || 'NA' : 'NA',
-      assignedFaculty: facEl  ? facEl.value   || 'NA' : 'NA'
+      department:dept, semester:SEM_LABELS[sem], facultyName:currentFacName,
+      courseType:courseType, offered:offered?'YES':'NO',
+      courseCode:codeEl?codeEl.value||'NA':'NA',
+      courseTitle:titleEl?titleEl.value||'NA':'NA',
+      hoursPerWeek:hrsEl?hrsEl.value||'NA':'NA',
+      assignedFaculty:facEl?facEl.value||'NA':'NA'
     });
   });
   return rows;
 }
 
-function showSuccessMessage(semValue) {
-  const allSems = ["1","2","3","4","5","6"];
-  const pending = allSems.filter(s => !submittedSems.includes(s));
-  const allDone = pending.length === 0;
+// ---- SUCCESS MESSAGE ----
+function getRequiredSems(){
+  const dept = document.getElementById('dept').value;
+  const isNoMajor = NO_MAJOR_DEPTS.includes(dept);
+  return isNoMajor ? ["1","2","3","4"] : ["1","2","3","4","5","6"];
+}
 
-  document.getElementById('successSubtitle').textContent = 'Data for ' + SEM_LABELS[semValue] + ' has been recorded.';
-  document.getElementById('msgName').innerHTML = 'Dear <span style="color:#185FA5;font-style:italic;">' + currentFacName + '</span>,';
-
-  let doneHtml = '<div class="done-section-title">&#10003; Semesters submitted by you:</div>';
-  submittedSems.forEach(s => { doneHtml += '<div class="done-item">&#9989; &nbsp;' + SEM_LABELS[s] + '</div>'; });
-  document.getElementById('doneListWrap').innerHTML = doneHtml;
-
-  if (allDone) {
-    document.getElementById('pendingWrap').innerHTML = '';
-    document.getElementById('allDoneWrap').style.display = 'block';
-    document.getElementById('nextBtn').style.display = 'none';
+function showSuccessMessage(semValue){
+  const required = getRequiredSems();
+  const pending  = required.filter(s=>!submittedSems.includes(s));
+  const allDone  = pending.length===0;
+  document.getElementById('successSubtitle').textContent='Data for '+SEM_LABELS[semValue]+' has been recorded.';
+  document.getElementById('msgName').innerHTML='Dear <span style="color:#185FA5;font-style:italic;">'+currentFacName+'</span>,';
+  let doneHtml='<div class="done-section-title">&#10003; Semesters submitted by you:</div>';
+  submittedSems.forEach(s=>{doneHtml+='<div class="done-item">&#9989; &nbsp;'+SEM_LABELS[s]+'</div>';});
+  document.getElementById('doneListWrap').innerHTML=doneHtml;
+  if(allDone){
+    document.getElementById('pendingWrap').innerHTML='';
+    document.getElementById('allDoneWrap').style.display='block';
+    document.getElementById('nextBtn').style.display='none';
   } else {
-    let pendHtml = '<div class="pending-box"><div class="pending-title">&#9654; Please submit data for these semesters next:</div>';
-    pending.forEach(s => { pendHtml += '<div class="pending-item">&#9654; &nbsp;' + SEM_LABELS[s] + '</div>'; });
-    pendHtml += '</div>';
-    document.getElementById('pendingWrap').innerHTML = pendHtml;
-    document.getElementById('allDoneWrap').style.display = 'none';
-    document.getElementById('nextBtn').style.display = 'block';
+    let pendHtml='<div class="pending-box"><div class="pending-title">&#9654; Please submit data for these semesters next:</div>';
+    pending.forEach(s=>{pendHtml+='<div class="pending-item">&#9654; &nbsp;'+SEM_LABELS[s]+'</div>';});
+    pendHtml+='</div>';
+    document.getElementById('pendingWrap').innerHTML=pendHtml;
+    document.getElementById('allDoneWrap').style.display='none';
+    document.getElementById('nextBtn').style.display='block';
   }
 }
 
-async function doSubmit() {
+// ---- SUBMIT ----
+async function doSubmit(){
   const dept    = document.getElementById('dept').value;
   const sem     = document.getElementById('sem').value;
   const facName = document.getElementById('facName').value.trim();
   const errEl   = document.getElementById('errMsg');
-
-  if (!dept || !sem || !facName) { errEl.style.display = 'block'; return; }
-  errEl.style.display = 'none';
-
-  if (submittedSems.includes(sem)) {
-    alert('You already submitted ' + SEM_LABELS[sem] + '. Please select a different semester.');
+  if(!dept||!sem||!facName){errEl.style.display='block';return;}
+  errEl.style.display='none';
+  if(submittedSems.includes(sem)&&!editingSem){
+    document.getElementById('alreadyBox').style.display='block';
     return;
   }
-
   currentFacName = facName;
   const rows = collectRows();
-
-  if (rows.length === 0) { alert('No course data found. Please select a semester first.'); return; }
-
+  if(rows.length===0){alert('No course data found. Please select a semester first.');return;}
   const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.innerHTML = '&#8987; Saving to Time Table Folder...';
-
+  btn.disabled=true;
+  btn.innerHTML='&#8987; Saving...';
   try {
-    // Send all rows one by one sequentially to avoid overload
-    for (const row of rows) {
-      await fetch(SHEET_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(row)
-      });
+    for(const row of rows){
+      await fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(row)});
     }
-    submittedSems.push(sem);
+    // Save locally for edit and PDF
+    submittedData[sem] = rows;
+    if(!submittedSems.includes(sem)) submittedSems.push(sem);
+    editingSem = null;
     showSuccessMessage(sem);
-    document.getElementById('mainForm').style.display = 'none';
-    document.getElementById('successBox').style.display = 'block';
-    window.scrollTo(0, 0);
-  } catch (err) {
+    document.getElementById('mainForm').style.display='none';
+    document.getElementById('successBox').style.display='block';
+    window.scrollTo(0,0);
+  } catch(err){
     alert('Something went wrong. Please check your internet and try again.');
-    btn.disabled = false;
-    btn.innerHTML = '&#128193; &nbsp; Push to Time Table Folder';
+    btn.disabled=false;
+    btn.innerHTML='&#128193; Push to Time Table Folder';
   }
 }
 
-function doReset() {
-  document.getElementById('mainForm').style.display = 'block';
-  document.getElementById('successBox').style.display = 'none';
-  document.getElementById('dept').value = '';
-  document.getElementById('sem').value = '';
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = false;
-  btn.innerHTML = '&#128193; &nbsp; Push to Time Table Folder';
-  document.querySelectorAll('.sem-sec').forEach(el => el.classList.remove('active'));
+// ---- PREVIEW PDF ----
+function doPreview(){
+  const dept    = document.getElementById('dept').value;
+  const facName = document.getElementById('facName').value.trim();
+  if(Object.keys(submittedData).length===0){
+    alert('Please submit at least one semester before previewing PDF.');
+    return;
+  }
+  let html = '<p style="text-align:center;font-size:12px;color:#555;margin-bottom:1rem;">Department: <strong>'+dept+'</strong> &nbsp;|&nbsp; Faculty: <strong>'+facName+'</strong></p>';
+  const semOrder = ["1","2","3","4","5","6"];
+  semOrder.forEach(s=>{
+    if(!submittedData[s]) return;
+    html += '<div class="pdf-sem-title">'+SEM_LABELS[s]+'</div>';
+    html += '<table class="pdf-table"><thead><tr><th>Course Type</th><th>Offered</th><th>Course Code</th><th>Course Title</th><th>Hrs/Wk</th><th>Faculty</th></tr></thead><tbody>';
+    submittedData[s].forEach(row=>{
+      const offered = row.offered==='YES';
+      html += '<tr><td>'+row.courseType+'</td><td style="color:'+(offered?'#1D9E75':'#c0392b');
+      html += ';font-weight:700;">'+row.offered+'</td><td>'+row.courseCode+'</td><td>'+row.courseTitle+'</td><td>'+row.hoursPerWeek+'</td><td>'+row.assignedFaculty+'</td></tr>';
+    });
+    html += '</tbody></table>';
+  });
+  html += '<p style="text-align:center;font-size:10px;color:#888;margin-top:1rem;">Prepared by: Gafoor I, FYUGP Coordinator | Department of Mathematics | NAM College Kallikkandy</p>';
+  document.getElementById('pdfContent').innerHTML = html;
+  document.getElementById('pdfOverlay').style.display='block';
+  window.scrollTo(0,0);
+}
 
-  document.querySelectorAll('.course-block').forEach(block => {
-    const uid    = block.dataset.uid;
-    const yesBtn = block.querySelector('.toggle-btn.yes');
-    const noBtn  = block.querySelector('.toggle-btn.no');
-    if (yesBtn) yesBtn.classList.remove('active');
-    if (noBtn)  noBtn.classList.add('active');
-    const fieldsEl = document.getElementById('fields_' + uid);
-    if (fieldsEl) fieldsEl.classList.remove('visible');
-    ['code','title','hrs','fac'].forEach(f => {
-      const el = document.getElementById(f + '_' + uid);
-      if (el) { el.disabled = true; el.value = 'NA'; }
+function closePdf(){
+  document.getElementById('pdfOverlay').style.display='none';
+}
+
+// ---- RESET ----
+function doReset(){
+  document.getElementById('mainForm').style.display='block';
+  document.getElementById('successBox').style.display='none';
+  document.getElementById('dept').value='';
+  document.getElementById('sem').value='';
+  document.getElementById('alreadyBox').style.display='none';
+  editingSem=null;
+  const btn=document.getElementById('submitBtn');
+  btn.disabled=false;
+  btn.innerHTML='&#128193; Push to Time Table Folder';
+  document.querySelectorAll('.sem-sec').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.course-block').forEach(block=>{
+    const uid=block.dataset.uid;
+    const yesBtn=block.querySelector('.toggle-btn.yes');
+    const noBtn=block.querySelector('.toggle-btn.no');
+    if(yesBtn) yesBtn.classList.remove('active');
+    if(noBtn)  noBtn.classList.add('active');
+    const fieldsEl=document.getElementById('fields_'+uid);
+    if(fieldsEl) fieldsEl.classList.remove('visible');
+    ['code','title','hrs','fac'].forEach(f=>{
+      const el=document.getElementById(f+'_'+uid);
+      if(el){el.disabled=true;el.value='NA';}
     });
   });
-  window.scrollTo(0, 0);
+  // Reset AEC visibility
+  [1,2].forEach(s=>{
+    ['eng','arab','hin','mal','urd'].forEach(lang=>{
+      const b=document.getElementById('s'+s+'_aec_'+lang+'_block');
+      if(b) b.classList.remove('hidden');
+    });
+  });
+  ['s1_major_block','s2_major_block'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.classList.remove('hidden');
+  });
+  const semOpt5=document.querySelector('#sem option[value="5"]');
+  const semOpt6=document.querySelector('#sem option[value="6"]');
+  if(semOpt5) semOpt5.style.display='';
+  if(semOpt6) semOpt6.style.display='';
+  window.scrollTo(0,0);
 }
 </script>
 </body>
