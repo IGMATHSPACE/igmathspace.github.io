@@ -38,7 +38,6 @@ body{font-family:'Times New Roman',Times,serif;background:#f0f4f8;color:#1a1a2e;
 .note{background:#eaf3fb;border-left:3px solid #185FA5;border-radius:0 7px 7px 0;padding:7px 12px;font-size:11px;color:#444;margin-bottom:0.85rem;line-height:1.6;}
 .sem-sec{display:none;}
 .sem-sec.active{display:block;}
-.aec-section{/* shown/hidden by JS */}
 .btn-row{display:flex;gap:10px;margin-top:1rem;flex-wrap:wrap;}
 .submit-btn{flex:1;min-width:200px;padding:15px;background:#0a3d62;color:#fff;border:none;border-radius:9px;font-size:15px;font-weight:700;font-family:'Times New Roman',Times,serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background 0.2s;}
 .submit-btn:hover{background:#185FA5;}
@@ -46,7 +45,6 @@ body{font-family:'Times New Roman',Times,serif;background:#f0f4f8;color:#1a1a2e;
 .pdf-btn{flex:1;min-width:200px;padding:15px;background:#7b2d8b;color:#fff;border:none;border-radius:9px;font-size:15px;font-weight:700;font-family:'Times New Roman',Times,serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background 0.2s;}
 .pdf-btn:hover{background:#5a1f68;}
 .footer-note{text-align:center;font-size:11px;color:#888;margin-top:1.2rem;line-height:2;border-top:1px solid #dde4ed;padding-top:1rem;}
-/* SUCCESS */
 .success-box{display:none;background:#fff;border-radius:12px;border:1px solid #dde4ed;box-shadow:0 2px 8px rgba(0,0,0,0.06);overflow:hidden;margin-bottom:2rem;}
 .success-top{background:#0a3d62;color:#fff;padding:2rem 1.5rem;text-align:center;}
 .success-top .tick{font-size:52px;}
@@ -71,11 +69,14 @@ body{font-family:'Times New Roman',Times,serif;background:#f0f4f8;color:#1a1a2e;
 .view-btn:hover{background:#5a1f68;}
 .err-msg{color:#c0392b;font-size:12px;margin-top:8px;display:none;text-align:center;font-weight:600;}
 /* DUPLICATE WARNING */
-.dup-warning{background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:14px;margin-bottom:1rem;display:none;}
+.dup-warning{background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:14px;margin-top:10px;display:none;}
 .dup-warning p{font-size:13px;color:#856404;font-weight:600;margin-bottom:10px;}
-.edit-btn{padding:8px 20px;background:#ff6f00;color:#fff;border:none;border-radius:7px;font-size:13px;font-weight:700;font-family:'Times New Roman',Times,serif;cursor:pointer;}
+.dup-btns{display:flex;gap:10px;flex-wrap:wrap;}
+.edit-btn{padding:9px 22px;background:#ff6f00;color:#fff;border:none;border-radius:7px;font-size:13px;font-weight:700;font-family:'Times New Roman',Times,serif;cursor:pointer;}
 .edit-btn:hover{background:#e65100;}
-/* VIEW DATA PAGE */
+/* CHECKING SPINNER */
+.checking-msg{font-size:12px;color:#185FA5;margin-top:8px;display:none;font-style:italic;}
+/* VIEW PAGE */
 .view-page{display:none;}
 .view-header{background:#0a3d62;color:#fff;padding:1.25rem;border-radius:12px 12px 0 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
 .view-header h3{font-size:16px;font-weight:700;}
@@ -90,13 +91,14 @@ body{font-family:'Times New Roman',Times,serif;background:#f0f4f8;color:#1a1a2e;
 .badge-no{background:#c0392b;color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700;}
 .view-pdf-btn{margin-top:1rem;padding:12px 28px;background:#7b2d8b;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;font-family:'Times New Roman',Times,serif;cursor:pointer;display:inline-flex;align-items:center;gap:8px;}
 .view-pdf-btn:hover{background:#5a1f68;}
-/* PDF PRINT STYLES */
 @media print{
   body{background:#fff;padding:0;}
   .fw{max-width:100%;}
   .no-print{display:none!important;}
   .view-header{background:#0a3d62!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
   .view-table th{background:#0a3d62!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .badge-yes{background:#1D9E75!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  .badge-no{background:#c0392b!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
 }
 </style>
 </head>
@@ -137,10 +139,12 @@ body{font-family:'Times New Roman',Times,serif;background:#f0f4f8;color:#1a1a2e;
         <option value="6">Semester 6 (Even)</option>
       </select>
     </div>
-    <!-- Duplicate warning -->
+    <div class="checking-msg" id="checkingMsg">&#8987; Checking Google Sheet for existing entries...</div>
     <div class="dup-warning" id="dupWarning">
       <p id="dupMsg"></p>
-      <button class="edit-btn" onclick="loadEditMode()">&#9998; Edit Previously Entered Data</button>
+      <div class="dup-btns">
+        <button class="edit-btn" onclick="loadEditMode()">&#9998; Edit Previously Entered Data</button>
+      </div>
     </div>
   </div>
 
@@ -150,11 +154,11 @@ body{font-family:'Times New Roman',Times,serif;background:#f0f4f8;color:#1a1a2e;
     <div class="note" id="s1_note"></div>
     <div id="s1_major_wrap"><div class="sub-title">Major Courses</div><div id="s1_major"></div></div>
     <div id="s1_core"></div>
-    <div id="s1_aec_eng_wrap" class="aec-section"><div class="sub-title">AEC &mdash; English (5 Batches)</div><div id="s1_aec_eng"></div></div>
-    <div id="s1_arab_wrap" class="aec-section"><div class="sub-title">AEC &mdash; Arabic (3 Streams)</div><div id="s1_arab"></div></div>
-    <div id="s1_hin_wrap" class="aec-section"><div class="sub-title">AEC &mdash; Hindi (3 Streams)</div><div id="s1_hin"></div></div>
-    <div id="s1_mal_wrap" class="aec-section"><div class="sub-title">AEC &mdash; Malayalam (3 Streams)</div><div id="s1_mal"></div></div>
-    <div id="s1_urd_wrap" class="aec-section"><div class="sub-title">AEC &mdash; Urdu (3 Streams)</div><div id="s1_urd"></div></div>
+    <div id="s1_aec_eng_wrap"><div class="sub-title">AEC &mdash; English (5 Batches)</div><div id="s1_aec_eng"></div></div>
+    <div id="s1_arab_wrap"><div class="sub-title">AEC &mdash; Arabic (3 Streams)</div><div id="s1_arab"></div></div>
+    <div id="s1_hin_wrap"><div class="sub-title">AEC &mdash; Hindi (3 Streams)</div><div id="s1_hin"></div></div>
+    <div id="s1_mal_wrap"><div class="sub-title">AEC &mdash; Malayalam (3 Streams)</div><div id="s1_mal"></div></div>
+    <div id="s1_urd_wrap"><div class="sub-title">AEC &mdash; Urdu (3 Streams)</div><div id="s1_urd"></div></div>
   </div>
 
   <!-- SEM 2 -->
@@ -163,11 +167,11 @@ body{font-family:'Times New Roman',Times,serif;background:#f0f4f8;color:#1a1a2e;
     <div class="note" id="s2_note"></div>
     <div id="s2_major_wrap"><div class="sub-title">Major Courses</div><div id="s2_major"></div></div>
     <div id="s2_core"></div>
-    <div id="s2_aec_eng_wrap" class="aec-section"><div class="sub-title">AEC &mdash; English (5 Batches)</div><div id="s2_aec_eng"></div></div>
-    <div id="s2_arab_wrap" class="aec-section"><div class="sub-title">AEC &mdash; Arabic (3 Streams)</div><div id="s2_arab"></div></div>
-    <div id="s2_hin_wrap" class="aec-section"><div class="sub-title">AEC &mdash; Hindi (3 Streams)</div><div id="s2_hin"></div></div>
-    <div id="s2_mal_wrap" class="aec-section"><div class="sub-title">AEC &mdash; Malayalam (3 Streams)</div><div id="s2_mal"></div></div>
-    <div id="s2_urd_wrap" class="aec-section"><div class="sub-title">AEC &mdash; Urdu (3 Streams)</div><div id="s2_urd"></div></div>
+    <div id="s2_aec_eng_wrap"><div class="sub-title">AEC &mdash; English (5 Batches)</div><div id="s2_aec_eng"></div></div>
+    <div id="s2_arab_wrap"><div class="sub-title">AEC &mdash; Arabic (3 Streams)</div><div id="s2_arab"></div></div>
+    <div id="s2_hin_wrap"><div class="sub-title">AEC &mdash; Hindi (3 Streams)</div><div id="s2_hin"></div></div>
+    <div id="s2_mal_wrap"><div class="sub-title">AEC &mdash; Malayalam (3 Streams)</div><div id="s2_mal"></div></div>
+    <div id="s2_urd_wrap"><div class="sub-title">AEC &mdash; Urdu (3 Streams)</div><div id="s2_urd"></div></div>
   </div>
 
   <!-- SEM 3 -->
@@ -247,9 +251,9 @@ body{font-family:'Times New Roman',Times,serif;background:#f0f4f8;color:#1a1a2e;
 
 <!-- VIEW DATA PAGE -->
 <div class="view-page" id="viewPage">
-  <div class="view-header">
+  <div class="view-header no-print">
     <h3 id="viewTitle">Entered Data</h3>
-    <button class="view-back-btn no-print" onclick="backFromView()">&#8592; Back</button>
+    <button class="view-back-btn" onclick="backFromView()">&#8592; Back</button>
   </div>
   <div class="view-body">
     <div id="viewTableWrap"></div>
@@ -257,26 +261,21 @@ body{font-family:'Times New Roman',Times,serif;background:#f0f4f8;color:#1a1a2e;
   </div>
 </div>
 
-</div><!-- end fw -->
+</div>
 <script>
 const SHEET_URL="https://script.google.com/macros/s/AKfycbxHRCinyFYpSL5c0ztjZx7V5Rm1zAh22mBoX6AQh9C_GTobqWanCzEkJFUBacQcAF4/exec";
 const SEM_LABELS={"1":"Semester 1 (Odd)","2":"Semester 2 (Even)","3":"Semester 3 (Odd)","4":"Semester 4 (Even)","5":"Semester 5 (Odd)","6":"Semester 6 (Even)"};
-
-// Departments that have NO major courses
 const NO_MAJOR_DEPTS=["Statistics","Arabic","Hindi","Malayalam","Urdu","Journalism","Physics","Economics","Sociology","Physical Education","Library Science"];
-// AEC English departments
-const AEC_ENG_DEPTS=["English"];
-// AEC Language departments
-const AEC_LANG_DEPTS=["Arabic","Hindi","Malayalam","Urdu"];
 
 let blockCounter=0;
-let submittedSems={};   // key: "dept||sem" => array of row objects
 let currentFacName="";
-let editMode=false;
 let lastSubmittedSem=null;
 let lastSubmittedDept=null;
+let lastSubmittedRows=[];
+let editMode=false;
+let checkTimer=null;
 
-// ---- COURSE BLOCK BUILDER ----
+// ---- COURSE BLOCK ----
 function cb(label,courseTypeLabel){
   blockCounter++;
   const uid='b'+blockCounter;
@@ -340,7 +339,6 @@ function majorBlocks(s,count){
 
 function buildAll(){
   blockCounter=0;
-  // SEM 1
   document.getElementById('s1_major').innerHTML=majorBlocks(1,1);
   document.getElementById('s1_core').innerHTML=cb('Minor \u2014 1','SEM1_MIN1')+cb('Minor \u2014 2','SEM1_MIN2')+cb('MDC','SEM1_MDC');
   document.getElementById('s1_aec_eng').innerHTML=aecEng(1);
@@ -350,7 +348,6 @@ function buildAll(){
   document.getElementById('s1_urd').innerHTML=aecLang(1,'Urdu');
   document.getElementById('s1_note').textContent='1 Major \u00b7 2 Minors \u00b7 1 MDC \u00b7 AEC (as per department)';
 
-  // SEM 2
   document.getElementById('s2_major').innerHTML=majorBlocks(2,1);
   document.getElementById('s2_core').innerHTML=cb('Minor \u2014 1','SEM2_MIN1')+cb('Minor \u2014 2','SEM2_MIN2')+cb('MDC','SEM2_MDC');
   document.getElementById('s2_aec_eng').innerHTML=aecEng(2);
@@ -360,27 +357,22 @@ function buildAll(){
   document.getElementById('s2_urd').innerHTML=aecLang(2,'Urdu');
   document.getElementById('s2_note').textContent='1 Major \u00b7 2 Minors \u00b7 1 MDC \u00b7 AEC (as per department)';
 
-  // SEM 3
   document.getElementById('s3_major').innerHTML=majorBlocks(3,2);
   document.getElementById('s3_core').innerHTML=cb('Minor \u2014 1','SEM3_MIN1')+cb('Minor \u2014 2','SEM3_MIN2')+cb('VAC','SEM3_VAC')+cb('MDC','SEM3_MDC');
   document.getElementById('s3_note').textContent='2 Majors \u00b7 2 Minors \u00b7 1 VAC \u00b7 1 MDC';
 
-  // SEM 4
   document.getElementById('s4_major').innerHTML=majorBlocks(4,2);
   document.getElementById('s4_core').innerHTML=cb('Minor \u2014 1','SEM4_MIN1')+cb('VAC \u2014 1','SEM4_VAC1')+cb('VAC \u2014 2','SEM4_VAC2')+cb('SEC','SEM4_SEC');
   document.getElementById('s4_note').textContent='2 Majors \u00b7 1 Minor \u00b7 2 VAC \u00b7 1 SEC';
 
-  // SEM 5
   document.getElementById('s5_major').innerHTML=majorBlocks(5,5);
   document.getElementById('s5_core').innerHTML=cb('SEC','SEM5_SEC');
   document.getElementById('s5_note').textContent='5 Majors \u00b7 1 SEC';
 
-  // SEM 6
   document.getElementById('s6_major').innerHTML=majorBlocks(6,5);
   document.getElementById('s6_core').innerHTML=cb('SEC','SEM6_SEC');
   document.getElementById('s6_note').textContent='5 Majors \u00b7 1 SEC';
 
-  // Set all inputs NA + disabled
   document.querySelectorAll('.course-block').forEach(block=>{
     const uid=block.dataset.uid;
     ['code','title','hrs','fac'].forEach(f=>{
@@ -388,28 +380,42 @@ function buildAll(){
       if(el){el.disabled=true; el.value='NA';}
     });
   });
+  // Hide all AEC on init
+  for(let s=1;s<=2;s++){
+    ['aec_eng','arab','hin','mal','urd'].forEach(id=>{
+      const w=document.getElementById('s'+s+'_'+id+'_wrap');
+      if(w) w.style.display='none';
+    });
+  }
 }
 buildAll();
 
-// ---- SHOW/HIDE AEC SECTIONS based on department ----
+// ---- DEPT / SEM CHANGE ----
 function applyDeptVisibility(){
   const dept=document.getElementById('dept').value;
   for(let s=1;s<=2;s++){
-    const engWrap=document.getElementById('s'+s+'_aec_eng_wrap');
-    const arabWrap=document.getElementById('s'+s+'_arab_wrap');
-    const hinWrap=document.getElementById('s'+s+'_hin_wrap');
-    const malWrap=document.getElementById('s'+s+'_mal_wrap');
-    const urdWrap=document.getElementById('s'+s+'_urd_wrap');
-    // Hide all first
-    [engWrap,arabWrap,hinWrap,malWrap,urdWrap].forEach(w=>{if(w)w.style.display='none';});
-    if(dept==='English'){ if(engWrap)engWrap.style.display=''; }
-    else if(dept==='Arabic'){ if(arabWrap)arabWrap.style.display=''; }
-    else if(dept==='Hindi'){ if(hinWrap)hinWrap.style.display=''; }
-    else if(dept==='Malayalam'){ if(malWrap)malWrap.style.display=''; }
-    else if(dept==='Urdu'){ if(urdWrap)urdWrap.style.display=''; }
-    // else: no AEC shown for other departments
+    const ids=['aec_eng','arab','hin','mal','urd'];
+    ids.forEach(id=>{
+      const w=document.getElementById('s'+s+'_'+id+'_wrap');
+      if(w) w.style.display='none';
+    });
+    if(dept==='English'){
+      const w=document.getElementById('s'+s+'_aec_eng_wrap');
+      if(w) w.style.display='';
+    } else if(dept==='Arabic'){
+      const w=document.getElementById('s'+s+'_arab_wrap');
+      if(w) w.style.display='';
+    } else if(dept==='Hindi'){
+      const w=document.getElementById('s'+s+'_hin_wrap');
+      if(w) w.style.display='';
+    } else if(dept==='Malayalam'){
+      const w=document.getElementById('s'+s+'_mal_wrap');
+      if(w) w.style.display='';
+    } else if(dept==='Urdu'){
+      const w=document.getElementById('s'+s+'_urd_wrap');
+      if(w) w.style.display='';
+    }
   }
-  // Show/hide major blocks
   for(let s=1;s<=6;s++){
     const mw=document.getElementById('s'+s+'_major_wrap');
     if(mw) mw.style.display=NO_MAJOR_DEPTS.includes(dept)?'none':'';
@@ -418,73 +424,106 @@ function applyDeptVisibility(){
 
 function onDeptChange(){
   applyDeptVisibility();
-  checkDuplicate();
+  triggerDuplicateCheck();
 }
 
 function onSemChange(){
   document.querySelectorAll('.sem-sec').forEach(el=>el.classList.remove('active'));
   const v=document.getElementById('sem').value;
   if(v) document.getElementById('s'+v).classList.add('active');
-  checkDuplicate();
+  triggerDuplicateCheck();
 }
 
-// ---- DUPLICATE CHECK ----
-function checkDuplicate(){
+// ---- DUPLICATE CHECK AGAINST GOOGLE SHEET ----
+function triggerDuplicateCheck(){
   const dept=document.getElementById('dept').value;
   const sem=document.getElementById('sem').value;
   const warn=document.getElementById('dupWarning');
+  const checkMsg=document.getElementById('checkingMsg');
   const submitBtn=document.getElementById('submitBtn');
-  if(!dept||!sem){warn.style.display='none'; submitBtn.disabled=false; return;}
-  const key=dept+'||'+sem;
-  if(submittedSems[key]){
-    document.getElementById('dupMsg').textContent=
-      'You have already entered data for '+dept+' — '+SEM_LABELS[sem]+'. To update it, click Edit below.';
-    warn.style.display='block';
+
+  warn.style.display='none';
+  submitBtn.disabled=false;
+  submitBtn.innerHTML='&#128193; Push to Time Table Folder';
+
+  if(!dept||!sem) return;
+
+  // Debounce
+  clearTimeout(checkTimer);
+  checkTimer=setTimeout(()=>{
+    checkMsg.style.display='block';
     submitBtn.disabled=true;
-  } else {
-    warn.style.display='none';
-    submitBtn.disabled=false;
-  }
+    const semLabel=SEM_LABELS[sem];
+    const url=SHEET_URL+'?action=check&department='+encodeURIComponent(dept)+'&semester='+encodeURIComponent(semLabel);
+    fetch(url)
+      .then(r=>r.json())
+      .then(data=>{
+        checkMsg.style.display='none';
+        if(data.exists){
+          document.getElementById('dupMsg').innerHTML=
+            '&#9888; <strong>'+dept+' &mdash; '+semLabel+'</strong> data already exists in the Time Table Folder.<br>'+
+            'To update it, click <strong>Edit</strong> below. This will load the existing data for editing.';
+          warn.style.display='block';
+          submitBtn.disabled=true;
+          submitBtn.innerHTML='&#128193; Push to Time Table Folder';
+        } else {
+          warn.style.display='none';
+          submitBtn.disabled=false;
+          submitBtn.innerHTML='&#128193; Push to Time Table Folder';
+        }
+      })
+      .catch(()=>{
+        checkMsg.style.display='none';
+        // On error allow submission
+        submitBtn.disabled=false;
+      });
+  },600);
 }
 
-// ---- LOAD EDIT MODE ----
-function loadEditMode(){
+// ---- EDIT MODE — fetch existing data from sheet ----
+async function loadEditMode(){
   const dept=document.getElementById('dept').value;
   const sem=document.getElementById('sem').value;
-  const key=dept+'||'+sem;
-  const rows=submittedSems[key];
-  if(!rows) return;
-  editMode=true;
-  document.getElementById('dupWarning').style.display='none';
-  document.getElementById('submitBtn').disabled=false;
-  document.getElementById('submitBtn').innerHTML='&#9998; Update Time Table Folder';
-
-  // Reset all blocks to NO/NA first
-  resetAllBlocks();
-
-  // Re-activate semester section
-  document.querySelectorAll('.sem-sec').forEach(el=>el.classList.remove('active'));
-  document.getElementById('s'+sem).classList.add('active');
-
-  // Restore previously entered data
-  const sec=document.getElementById('s'+sem);
-  rows.forEach(row=>{
-    const block=sec.querySelector('[data-coursetype="'+row.courseType+'"]');
-    if(!block) return;
-    const uid=block.dataset.uid;
-    if(row.offered==='YES'){
-      toggleOffer(uid,'yes');
-      const codeEl=document.getElementById('code_'+uid);
-      const titleEl=document.getElementById('title_'+uid);
-      const hrsEl=document.getElementById('hrs_'+uid);
-      const facEl=document.getElementById('fac_'+uid);
-      if(codeEl) codeEl.value=row.courseCode!=='NA'?row.courseCode:'';
-      if(titleEl) titleEl.value=row.courseTitle!=='NA'?row.courseTitle:'';
-      if(hrsEl) hrsEl.value=row.hoursPerWeek!=='NA'?row.hoursPerWeek:'';
-      if(facEl) facEl.value=row.assignedFaculty!=='NA'?row.assignedFaculty:'';
-    }
-  });
-  if(document.getElementById('facName').value==='') document.getElementById('facName').value=currentFacName;
+  const semLabel=SEM_LABELS[sem];
+  const btn=document.querySelector('.edit-btn');
+  btn.textContent='Loading...';
+  btn.disabled=true;
+  try{
+    const url=SHEET_URL+'?action=fetch&department='+encodeURIComponent(dept)+'&semester='+encodeURIComponent(semLabel);
+    const resp=await fetch(url);
+    const data=await resp.json();
+    const rows=data.rows||[];
+    editMode=true;
+    document.getElementById('dupWarning').style.display='none';
+    document.getElementById('submitBtn').disabled=false;
+    document.getElementById('submitBtn').innerHTML='&#9998; Update Time Table Folder';
+    resetAllBlocks();
+    document.querySelectorAll('.sem-sec').forEach(el=>el.classList.remove('active'));
+    document.getElementById('s'+sem).classList.add('active');
+    const sec=document.getElementById('s'+sem);
+    rows.forEach(row=>{
+      const block=sec.querySelector('[data-coursetype="'+row.courseType+'"]');
+      if(!block) return;
+      const uid=block.dataset.uid;
+      if(row.offered==='YES'){
+        toggleOffer(uid,'yes');
+        const codeEl=document.getElementById('code_'+uid);
+        const titleEl=document.getElementById('title_'+uid);
+        const hrsEl=document.getElementById('hrs_'+uid);
+        const facEl=document.getElementById('fac_'+uid);
+        if(codeEl) codeEl.value=row.courseCode!=='NA'?row.courseCode:'';
+        if(titleEl) titleEl.value=row.courseTitle!=='NA'?row.courseTitle:'';
+        if(hrsEl) hrsEl.value=row.hoursPerWeek!=='NA'?row.hoursPerWeek:'';
+        if(facEl) facEl.value=row.assignedFaculty!=='NA'?row.assignedFaculty:'';
+        if(rows[0]) currentFacName=rows[0].facultyName||'';
+        if(document.getElementById('facName').value==='') document.getElementById('facName').value=currentFacName;
+      }
+    });
+  }catch(e){
+    alert('Could not load existing data. Please try again.');
+  }
+  btn.textContent='\u270E Edit Previously Entered Data';
+  btn.disabled=false;
 }
 
 // ---- COLLECT ROWS ----
@@ -495,8 +534,11 @@ function collectRows(){
   const sec=document.getElementById('s'+sem);
   if(!sec) return rows;
   sec.querySelectorAll('.course-block').forEach(block=>{
-    // Skip hidden blocks (major blocks hidden for no-major depts)
-    if(block.closest('[style*="display: none"]')||block.closest('[style*="display:none"]')) return;
+    let parent=block.parentElement;
+    while(parent&&parent!==sec){
+      if(parent.style&&(parent.style.display==='none')) return;
+      parent=parent.parentElement;
+    }
     const uid=block.dataset.uid;
     const courseType=block.dataset.coursetype;
     const yesBtn=block.querySelector('.toggle-btn.yes');
@@ -506,11 +548,8 @@ function collectRows(){
     const hrsEl=document.getElementById('hrs_'+uid);
     const facEl=document.getElementById('fac_'+uid);
     rows.push({
-      department:dept,
-      semester:SEM_LABELS[sem],
-      facultyName:currentFacName,
-      courseType:courseType,
-      offered:offered?'YES':'NO',
+      department:dept,semester:SEM_LABELS[sem],facultyName:currentFacName,
+      courseType:courseType,offered:offered?'YES':'NO',
       courseCode:codeEl?codeEl.value||'NA':'NA',
       courseTitle:titleEl?titleEl.value||'NA':'NA',
       hoursPerWeek:hrsEl?hrsEl.value||'NA':'NA',
@@ -534,15 +573,20 @@ async function doSubmit(){
   const btn=document.getElementById('submitBtn');
   btn.disabled=true;
   btn.innerHTML='&#8987; Saving...';
+
   try{
+    // If edit mode — delete old rows first
+    if(editMode){
+      const semLabel=SEM_LABELS[sem];
+      await fetch(SHEET_URL+'?action=delete&department='+encodeURIComponent(dept)+'&semester='+encodeURIComponent(semLabel));
+    }
+    // Save all rows sequentially
     for(const row of rows){
       await fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(row)});
     }
-    // Store locally for duplicate check and view
-    const key=dept+'||'+sem;
-    submittedSems[key]=rows;
     lastSubmittedSem=sem;
     lastSubmittedDept=dept;
+    lastSubmittedRows=rows;
     editMode=false;
     showSuccessMessage(sem);
     document.getElementById('mainForm').style.display='none';
@@ -558,56 +602,40 @@ async function doSubmit(){
 // ---- SUCCESS MESSAGE ----
 function showSuccessMessage(semValue){
   const allSems=["1","2","3","4","5","6"];
-  const dept=document.getElementById('dept').value;
-  const submittedList=allSems.filter(s=>submittedSems[dept+'||'+s]);
-  const pending=allSems.filter(s=>!submittedSems[dept+'||'+s]);
-  const allDone=pending.length===0;
   document.getElementById('successSubtitle').textContent='Data for '+SEM_LABELS[semValue]+' has been recorded.';
   document.getElementById('msgName').innerHTML='Dear <span style="color:#185FA5;font-style:italic;">'+currentFacName+'</span>,';
-  let doneHtml='<div class="done-section-title">&#10003; Semesters submitted:</div>';
-  submittedList.forEach(s=>{doneHtml+='<div class="done-item">&#9989; &nbsp;'+SEM_LABELS[s]+'</div>';});
+  let doneHtml='<div class="done-section-title">&#10003; Submitted this session:</div>';
+  doneHtml+='<div class="done-item">&#9989; &nbsp;'+lastSubmittedDept+' &mdash; '+SEM_LABELS[semValue]+'</div>';
   document.getElementById('doneListWrap').innerHTML=doneHtml;
-  if(allDone){
-    document.getElementById('pendingWrap').innerHTML='';
-    document.getElementById('allDoneWrap').style.display='block';
-    document.getElementById('nextBtn').style.display='none';
-  } else {
-    let pendHtml='<div class="pending-box"><div class="pending-title">&#9654; Please submit data for these semesters next:</div>';
-    pending.forEach(s=>{pendHtml+='<div class="pending-item">&#9654; &nbsp;'+SEM_LABELS[s]+'</div>';});
-    pendHtml+='</div>';
-    document.getElementById('pendingWrap').innerHTML=pendHtml;
-    document.getElementById('allDoneWrap').style.display='none';
-    document.getElementById('nextBtn').style.display='block';
-  }
+  const allSemsPending=allSems.filter(s=>s!==semValue);
+  let pendHtml='<div class="pending-box"><div class="pending-title">&#9654; Remember to also submit data for:</div>';
+  allSemsPending.forEach(s=>{pendHtml+='<div class="pending-item">&#9654; &nbsp;'+SEM_LABELS[s]+'</div>';});
+  pendHtml+='</div>';
+  document.getElementById('pendingWrap').innerHTML=pendHtml;
+  document.getElementById('allDoneWrap').style.display='none';
+  document.getElementById('nextBtn').style.display='block';
 }
 
-// ---- VIEW ENTERED DATA ----
+// ---- VIEW DATA ----
 function showViewPage(){
-  const dept=lastSubmittedDept;
-  const sem=lastSubmittedSem;
-  const key=dept+'||'+sem;
-  const rows=submittedSems[key];
-  if(!rows){alert('No data found.'); return;}
+  const rows=lastSubmittedRows;
+  if(!rows||rows.length===0){alert('No data to view.'); return;}
   document.getElementById('successBox').style.display='none';
   document.getElementById('viewPage').style.display='block';
-  document.getElementById('viewTitle').textContent=dept+' \u2014 '+SEM_LABELS[sem];
+  document.getElementById('viewTitle').textContent=lastSubmittedDept+' \u2014 '+SEM_LABELS[lastSubmittedSem];
+  const now=new Date().toLocaleString();
   let html='<table class="view-table"><thead><tr>'
     +'<th>Timestamp</th><th>Department</th><th>Semester</th><th>Faculty Name</th>'
     +'<th>Course Type</th><th>Offered</th><th>Course Code</th><th>Course Title</th>'
-    +'<th>Hours/Week</th><th>Assigned Faculty</th></tr></thead><tbody>';
-  const now=new Date().toLocaleString();
+    +'<th>Hours/Week</th><th>Assigned Faculty</th>'
+    +'</tr></thead><tbody>';
   rows.forEach(r=>{
     html+='<tr>'
-      +'<td>'+now+'</td>'
-      +'<td>'+r.department+'</td>'
-      +'<td>'+r.semester+'</td>'
-      +'<td>'+r.facultyName+'</td>'
+      +'<td>'+now+'</td><td>'+r.department+'</td><td>'+r.semester+'</td><td>'+r.facultyName+'</td>'
       +'<td>'+r.courseType+'</td>'
       +'<td><span class="badge-'+(r.offered==='YES'?'yes':'no')+'">'+r.offered+'</span></td>'
-      +'<td>'+r.courseCode+'</td>'
-      +'<td>'+r.courseTitle+'</td>'
-      +'<td>'+r.hoursPerWeek+'</td>'
-      +'<td>'+r.assignedFaculty+'</td>'
+      +'<td>'+r.courseCode+'</td><td>'+r.courseTitle+'</td>'
+      +'<td>'+r.hoursPerWeek+'</td><td>'+r.assignedFaculty+'</td>'
       +'</tr>';
   });
   html+='</tbody></table>';
@@ -620,28 +648,20 @@ function backFromView(){
   document.getElementById('successBox').style.display='block';
 }
 
-// ---- SAVE PDF ----
-function savePDF(){
-  window.print();
-}
+function savePDF(){ window.print(); }
 
-// ---- CURRENT FORM PDF (before submit) ----
 function doCurrentPDF(){
   const dept=document.getElementById('dept').value;
   const sem=document.getElementById('sem').value;
-  if(!dept||!sem){alert('Please select Department and Semester first.'); return;}
   const facName=document.getElementById('facName').value.trim();
-  const rows=collectRows();
-  if(rows.length===0){alert('Please fill in some course details first.'); return;}
-  // Build temporary view and print
+  if(!dept||!sem){alert('Please select Department and Semester first.'); return;}
+  currentFacName=facName||'—';
   lastSubmittedDept=dept;
   lastSubmittedSem=sem;
-  currentFacName=facName||'—';
-  const key=dept+'||'+sem;
-  submittedSems[key]=rows;
+  lastSubmittedRows=collectRows();
   showViewPage();
   document.getElementById('mainForm').style.display='none';
-  setTimeout(()=>{window.print();},500);
+  setTimeout(()=>window.print(),500);
 }
 
 // ---- RESET ----
@@ -668,12 +688,12 @@ function doReset(){
   document.getElementById('dept').value='';
   document.getElementById('sem').value='';
   document.getElementById('dupWarning').style.display='none';
+  document.getElementById('checkingMsg').style.display='none';
   const btn=document.getElementById('submitBtn');
   btn.disabled=false;
   btn.innerHTML='&#128193; Push to Time Table Folder';
   document.querySelectorAll('.sem-sec').forEach(el=>el.classList.remove('active'));
   resetAllBlocks();
-  // Hide all AEC sections
   for(let s=1;s<=2;s++){
     ['aec_eng','arab','hin','mal','urd'].forEach(id=>{
       const w=document.getElementById('s'+s+'_'+id+'_wrap');
@@ -682,16 +702,6 @@ function doReset(){
   }
   window.scrollTo(0,0);
 }
-
-// Init: hide all AEC sections on load
-(function(){
-  for(let s=1;s<=2;s++){
-    ['aec_eng','arab','hin','mal','urd'].forEach(id=>{
-      const w=document.getElementById('s'+s+'_'+id+'_wrap');
-      if(w) w.style.display='none';
-    });
-  }
-})();
 </script>
 </body>
 </html>
