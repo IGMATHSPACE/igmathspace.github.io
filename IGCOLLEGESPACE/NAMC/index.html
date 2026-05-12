@@ -1,36 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>NAM College FYUGP Course Details 2026-27</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: Georgia, serif; background: #f0f4f8; color: #1a1a2e; min-height: 100vh; padding: 1.5rem 1rem 4rem; }
 .fw { max-width: 740px; margin: 0 auto; }
-.college-header { text-align: center; padding: 1.5rem 1rem; border: 1px solid #c8d6e5; border-radius: 12px; background: #ffffff; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+
+.college-header { text-align: center; padding: 1.5rem 1rem; border: 1px solid #c8d6e5; border-radius: 12px; background: #fff; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
 .college-header h1 { font-size: 22px; font-weight: 700; color: #0a3d62; letter-spacing: 0.5px; }
 .college-header h2 { font-size: 14px; font-weight: 400; color: #555; margin-top: 5px; }
 .college-header .tagline { font-size: 11px; color: #888; margin-top: 8px; border-top: 1px solid #eee; padding-top: 8px; }
+
 .card { background: #fff; border: 1px solid #dde4ed; border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
 .sec-title { font-size: 12px; font-weight: 700; color: #0a3d62; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #eef1f6; padding-bottom: 8px; }
 .sub-title { font-size: 12px; font-weight: 600; color: #185FA5; margin: 1rem 0 0.5rem; padding: 5px 12px; background: #e8f1fb; border-radius: 6px; display: inline-block; }
+
 .fg { margin-bottom: 0.85rem; }
 .fg label { display: block; font-size: 12px; font-weight: 600; color: #444; margin-bottom: 5px; }
 .fg select, .fg input { width: 100%; padding: 9px 12px; border: 1px solid #c8d6e5; border-radius: 7px; font-size: 13px; font-family: Georgia, serif; background: #fafcff; color: #1a1a2e; outline: none; transition: border 0.2s; }
 .fg select:focus, .fg input:focus { border-color: #185FA5; background: #fff; }
+
 .fr2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 @media(max-width:480px){ .fr2 { grid-template-columns: 1fr; } }
+
 .req { color: #c0392b; margin-left: 2px; }
-.course-block { background: #f7f9fc; border: 1px solid #dde4ed; border-radius: 8px; padding: 0.85rem; margin-bottom: 0.65rem; }
-.cb-label { font-size: 11px; font-weight: 700; color: #0a3d62; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 0.65rem; }
 .note { background: #eaf3fb; border-left: 3px solid #185FA5; border-radius: 0 7px 7px 0; padding: 7px 12px; font-size: 11px; color: #444; margin-bottom: 0.85rem; line-height: 1.6; }
+
+/* COURSE BLOCK */
+.course-block { border: 1px solid #dde4ed; border-radius: 10px; margin-bottom: 0.85rem; overflow: hidden; }
+.course-block-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: #f0f4f8; border-bottom: 1px solid #dde4ed; flex-wrap: wrap; gap: 8px; }
+.cb-label { font-size: 12px; font-weight: 700; color: #0a3d62; text-transform: uppercase; letter-spacing: 0.6px; }
+
+/* TOGGLE SWITCH */
+.toggle-wrap { display: flex; align-items: center; gap: 8px; }
+.toggle-wrap span { font-size: 12px; font-weight: 600; color: #555; }
+.toggle { position: relative; display: inline-block; width: 46px; height: 24px; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: #ccc; border-radius: 24px; transition: 0.3s; }
+.slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: 0.3s; }
+input:checked + .slider { background: #1D9E75; }
+input:checked + .slider:before { transform: translateX(22px); }
+.toggle-label { font-size: 12px; font-weight: 700; }
+.toggle-label.yes { color: #1D9E75; }
+.toggle-label.no  { color: #999; }
+
+/* COURSE FIELDS */
+.course-fields { padding: 12px 14px; background: #fff; display: none; }
+.course-fields.active { display: block; }
+.course-fields .fr2 { gap: 10px; }
+
+/* DISABLED FIELDS */
+.fg input:disabled { background: #f0f0f0; color: #aaa; cursor: not-allowed; border-color: #ddd; }
+
 .sem-sec { display: none; }
 .sem-sec.active { display: block; }
+
 .submit-btn { width: 100%; padding: 15px; background: #0a3d62; color: #fff; border: none; border-radius: 9px; font-size: 16px; font-weight: 700; font-family: Georgia, serif; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 1rem; transition: background 0.2s; }
 .submit-btn:hover { background: #185FA5; }
 .submit-btn:disabled { background: #999; cursor: not-allowed; }
+
 .footer-note { text-align: center; font-size: 11px; color: #888; margin-top: 1.2rem; line-height: 2; border-top: 1px solid #dde4ed; padding-top: 1rem; }
+
+/* SUCCESS */
 .success-box { display: none; background: #fff; border-radius: 12px; border: 1px solid #dde4ed; box-shadow: 0 2px 8px rgba(0,0,0,0.06); overflow: hidden; margin-bottom: 2rem; }
 .success-top { background: #0a3d62; color: #fff; padding: 2rem 1.5rem; text-align: center; }
 .success-top .tick { font-size: 52px; }
@@ -91,6 +125,7 @@ body { font-family: Georgia, serif; background: #f0f4f8; color: #1a1a2e; min-hei
     </div>
   </div>
 
+  <!-- SEM 1 -->
   <div class="sem-sec card" id="s1">
     <div class="sec-title">&#127979; Semester 1 &mdash; Odd</div>
     <div class="note">1 Major &middot; 2 Minors &middot; 1 MDC &middot; AEC English (5 batches) &middot; AEC Language &mdash; 3 streams each</div>
@@ -102,6 +137,7 @@ body { font-family: Georgia, serif; background: #f0f4f8; color: #1a1a2e; min-hei
     <div class="sub-title">AEC &mdash; Urdu (3 Streams)</div><div id="s1_urd"></div>
   </div>
 
+  <!-- SEM 2 -->
   <div class="sem-sec card" id="s2">
     <div class="sec-title">&#127979; Semester 2 &mdash; Even</div>
     <div class="note">1 Major &middot; 2 Minors &middot; 1 MDC &middot; AEC English (5 batches) &middot; AEC Language &mdash; 3 streams each</div>
@@ -113,24 +149,28 @@ body { font-family: Georgia, serif; background: #f0f4f8; color: #1a1a2e; min-hei
     <div class="sub-title">AEC &mdash; Urdu (3 Streams)</div><div id="s2_urd"></div>
   </div>
 
+  <!-- SEM 3 -->
   <div class="sem-sec card" id="s3">
     <div class="sec-title">&#127979; Semester 3 &mdash; Odd</div>
     <div class="note">2 Majors &middot; 2 Minors &middot; 1 VAC &middot; 1 MDC</div>
     <div id="s3_core"></div>
   </div>
 
+  <!-- SEM 4 -->
   <div class="sem-sec card" id="s4">
     <div class="sec-title">&#127979; Semester 4 &mdash; Even</div>
     <div class="note">2 Majors &middot; 1 Minor &middot; 2 VAC &middot; 1 SEC</div>
     <div id="s4_core"></div>
   </div>
 
+  <!-- SEM 5 -->
   <div class="sem-sec card" id="s5">
     <div class="sec-title">&#127979; Semester 5 &mdash; Odd</div>
     <div class="note">5 Majors &middot; 1 SEC</div>
     <div id="s5_core"></div>
   </div>
 
+  <!-- SEM 6 -->
   <div class="sem-sec card" id="s6">
     <div class="sec-title">&#127979; Semester 6 &mdash; Even</div>
     <div class="note">5 Majors &middot; 1 SEC</div>
@@ -141,14 +181,12 @@ body { font-family: Georgia, serif; background: #f0f4f8; color: #1a1a2e; min-hei
     <div class="sec-title">&#128100; Faculty Submitting This Form</div>
     <div class="fg">
       <label>Faculty Name <span class="req">*</span></label>
-      <input type="text" id="facName" placeholder="Full name of faculty submitting this form" />
+      <input type="text" id="facName" placeholder="Full name of faculty submitting this form"/>
     </div>
   </div>
 
   <div class="err-msg" id="errMsg">&#9888; Please fill in Department, Semester and Faculty Name before submitting.</div>
-  <button class="submit-btn" id="submitBtn" onclick="doSubmit()">
-    &#128193; &nbsp; Push to Time Table Folder
-  </button>
+  <button class="submit-btn" id="submitBtn" onclick="doSubmit()">&#128193; &nbsp; Push to Time Table Folder</button>
   <div class="footer-note">
     Prepared by: <strong>Gafoor I</strong>, FYUGP Coordinator &nbsp;|&nbsp; Department of Mathematics<br>
     NAM College Kallikkandy
@@ -182,19 +220,60 @@ const SEM_LABELS = {"1":"Semester 1 (Odd)","2":"Semester 2 (Even)","3":"Semester
 let submittedSems = [];
 let currentFacName = "";
 
+// Build one course block with YES/NO toggle
 function cb(label, key) {
-  return `<div class="course-block" data-key="${key}">
-    <div class="cb-label">${label}</div>
-    <div class="fr2">
-      <div class="fg"><label>Course Code</label><input type="text" class="f-code" placeholder="Course code"/></div>
-      <div class="fg"><label>Course Title</label><input type="text" class="f-title" placeholder="Course title"/></div>
+  const uid = key.replace(/[^a-zA-Z0-9]/g,'_');
+  return `
+  <div class="course-block" data-key="${key}">
+    <div class="course-block-header">
+      <div class="cb-label">${label}</div>
+      <div class="toggle-wrap">
+        <span>Do you offer this course?</span>
+        <label class="toggle">
+          <input type="checkbox" id="tog_${uid}" onchange="toggleCourse(this,'${uid}')"/>
+          <span class="slider"></span>
+        </label>
+        <span class="toggle-label no" id="tlbl_${uid}">NO</span>
+      </div>
     </div>
-    <div class="fr2">
-      <div class="fg"><label>Hours / Week</label><input type="number" class="f-hours" min="1" max="10" placeholder="e.g. 4"/></div>
-      <div class="fg"><label>Assigned Faculty</label><input type="text" class="f-fac" placeholder="Faculty name"/></div>
+    <div class="course-fields" id="fields_${uid}">
+      <div class="fr2">
+        <div class="fg"><label>Course Code</label>
+          <input type="text" id="code_${uid}" value="NA" disabled placeholder="Course code"/></div>
+        <div class="fg"><label>Course Title</label>
+          <input type="text" id="title_${uid}" value="NA" disabled placeholder="Course title"/></div>
+      </div>
+      <div class="fr2">
+        <div class="fg"><label>Hours / Week</label>
+          <input type="text" id="hours_${uid}" value="NA" disabled placeholder="e.g. 4"/></div>
+        <div class="fg"><label>Faculty in Charge</label>
+          <input type="text" id="fac_${uid}" value="NA" disabled placeholder="Faculty name"/></div>
+      </div>
     </div>
   </div>`;
 }
+
+function toggleCourse(chk, uid) {
+  const lbl    = document.getElementById('tlbl_'+uid);
+  const fields = document.getElementById('fields_'+uid);
+  const code   = document.getElementById('code_'+uid);
+  const title  = document.getElementById('title_'+uid);
+  const hours  = document.getElementById('hours_'+uid);
+  const fac    = document.getElementById('fac_'+uid);
+
+  if(chk.checked) {
+    lbl.textContent = 'YES';
+    lbl.className = 'toggle-label yes';
+    fields.classList.add('active');
+    [code,title,hours,fac].forEach(el=>{ el.disabled=false; if(el.value==='NA') el.value=''; });
+  } else {
+    lbl.textContent = 'NO';
+    lbl.className = 'toggle-label no';
+    fields.classList.remove('active');
+    [code,title,hours,fac].forEach(el=>{ el.disabled=true; el.value='NA'; });
+  }
+}
+
 function aecEng(s){ return ['Commerce','PC & CS','Mathematics','History','English'].map(n=>cb(`AEC English — ${n} Batch`,`SEM${s}_AEC_ENG_${n.replace(/[\s&]/g,'_')}`)).join(''); }
 function aecLang(s,lang){ return ['Commerce','Science','Arts'].map(n=>cb(`AEC ${lang} — ${n} Stream`,`SEM${s}_AEC_${lang}_${n}`)).join(''); }
 
@@ -205,12 +284,14 @@ function buildAll(){
   document.getElementById('s1_hin').innerHTML=aecLang(1,'Hindi');
   document.getElementById('s1_mal').innerHTML=aecLang(1,'Malayalam');
   document.getElementById('s1_urd').innerHTML=aecLang(1,'Urdu');
+
   document.getElementById('s2_core').innerHTML=cb('Major — 1','SEM2_MAJ1')+cb('Minor — 1','SEM2_MIN1')+cb('Minor — 2','SEM2_MIN2')+cb('MDC','SEM2_MDC');
   document.getElementById('s2_aec_eng').innerHTML=aecEng(2);
   document.getElementById('s2_arab').innerHTML=aecLang(2,'Arabic');
   document.getElementById('s2_hin').innerHTML=aecLang(2,'Hindi');
   document.getElementById('s2_mal').innerHTML=aecLang(2,'Malayalam');
   document.getElementById('s2_urd').innerHTML=aecLang(2,'Urdu');
+
   document.getElementById('s3_core').innerHTML=cb('Major — 1','SEM3_MAJ1')+cb('Major — 2','SEM3_MAJ2')+cb('Minor — 1','SEM3_MIN1')+cb('Minor — 2','SEM3_MIN2')+cb('VAC','SEM3_VAC')+cb('MDC','SEM3_MDC');
   document.getElementById('s4_core').innerHTML=cb('Major — 1','SEM4_MAJ1')+cb('Major — 2','SEM4_MAJ2')+cb('Minor — 1','SEM4_MIN1')+cb('VAC — 1','SEM4_VAC1')+cb('VAC — 2','SEM4_VAC2')+cb('SEC','SEM4_SEC');
   document.getElementById('s5_core').innerHTML=cb('Major — 1','SEM5_MAJ1')+cb('Major — 2','SEM5_MAJ2')+cb('Major — 3','SEM5_MAJ3')+cb('Major — 4','SEM5_MAJ4')+cb('Major — 5','SEM5_MAJ5')+cb('SEC (SEC-2)','SEM5_SEC');
@@ -224,18 +305,39 @@ function showSem(){
   if(v) document.getElementById('s'+v).classList.add('active');
 }
 
+function collectRows(){
+  const dept=document.getElementById('dept').value;
+  const sem=document.getElementById('sem').value;
+  const rows=[];
+  const sec=document.getElementById('s'+sem);
+  if(!sec) return rows;
+  sec.querySelectorAll('.course-block').forEach(block=>{
+    const key=block.dataset.key;
+    const uid=key.replace(/[^a-zA-Z0-9]/g,'_');
+    const tog=document.getElementById('tog_'+uid);
+    const offered=tog && tog.checked ? 'YES' : 'NO';
+    const code=document.getElementById('code_'+uid).value.trim();
+    const title=document.getElementById('title_'+uid).value.trim();
+    const hrs=document.getElementById('hours_'+uid).value.trim();
+    const fac=document.getElementById('fac_'+uid).value.trim();
+    rows.push({
+      department:dept, semester:SEM_LABELS[sem], facultyName:currentFacName,
+      courseType:key, offered:offered,
+      courseCode:code, courseTitle:title, hoursPerWeek:hrs, assignedFaculty:fac
+    });
+  });
+  return rows;
+}
+
 function showSuccessMessage(semValue){
   const allSems=["1","2","3","4","5","6"];
   const pending=allSems.filter(s=>!submittedSems.includes(s));
   const allDone=pending.length===0;
-
   document.getElementById('successSubtitle').textContent=`Data for ${SEM_LABELS[semValue]} has been recorded.`;
   document.getElementById('msgName').innerHTML=`Dear <span style="color:#185FA5;font-style:italic;">${currentFacName}</span>,`;
-
   let doneHtml=`<div class="done-section-title">&#10003; Semesters submitted by you:</div>`;
   submittedSems.forEach(s=>{ doneHtml+=`<div class="done-item">&#9989; &nbsp;${SEM_LABELS[s]}</div>`; });
   document.getElementById('doneListWrap').innerHTML=doneHtml;
-
   if(allDone){
     document.getElementById('pendingWrap').innerHTML='';
     document.getElementById('allDoneWrap').style.display='block';
@@ -250,26 +352,6 @@ function showSuccessMessage(semValue){
   }
 }
 
-function collectRows(){
-  const dept=document.getElementById('dept').value;
-  const sem=document.getElementById('sem').value;
-  const rows=[];
-  const sec=document.getElementById('s'+sem);
-  if(!sec) return rows;
-  sec.querySelectorAll('.course-block').forEach(block=>{
-    const code=block.querySelector('.f-code').value.trim();
-    const title=block.querySelector('.f-title').value.trim();
-    const hrs=block.querySelector('.f-hours').value.trim();
-    const fac=block.querySelector('.f-fac').value.trim();
-    if(code||title||hrs||fac){
-      rows.push({department:dept,semester:SEM_LABELS[sem],facultyName:currentFacName,
-        courseType:block.dataset.key,courseCode:code,courseTitle:title,
-        hoursPerWeek:hrs,assignedFaculty:fac});
-    }
-  });
-  return rows;
-}
-
 async function doSubmit(){
   const dept=document.getElementById('dept').value;
   const sem=document.getElementById('sem').value;
@@ -280,7 +362,6 @@ async function doSubmit(){
   if(submittedSems.includes(sem)){ alert(`You already submitted ${SEM_LABELS[sem]}. Please select a different semester.`); return; }
   currentFacName=facName;
   const rows=collectRows();
-  if(rows.length===0){ alert('Please fill in at least one course before submitting.'); return; }
   const btn=document.getElementById('submitBtn');
   btn.disabled=true;
   btn.innerHTML='&#8987; Saving to Time Table Folder...';
@@ -307,7 +388,10 @@ function doReset(){
   btn.disabled=false;
   btn.innerHTML='&#128193; &nbsp; Push to Time Table Folder';
   document.querySelectorAll('.sem-sec').forEach(el=>el.classList.remove('active'));
-  document.querySelectorAll('.course-block input').forEach(el=>el.value='');
+  document.querySelectorAll('.course-block input[type=text], .course-block input[type=number]').forEach(el=>{ el.value='NA'; el.disabled=true; });
+  document.querySelectorAll('.course-block input[type=checkbox]').forEach(el=>{ el.checked=false; });
+  document.querySelectorAll('.toggle-label').forEach(el=>{ el.textContent='NO'; el.className='toggle-label no'; });
+  document.querySelectorAll('.course-fields').forEach(el=>el.classList.remove('active'));
   window.scrollTo(0,0);
 }
 </script>
