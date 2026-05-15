@@ -43,9 +43,6 @@ body{font-family:'Times New Roman',Times,serif;background:#f0f4f8;color:#1a1a2e;
 .sem-sec{display:none;}
 .sem-sec.active{display:block;}
 .btn-row{display:flex;gap:10px;margin-top:1rem;flex-wrap:wrap;}
-.submit-btn{flex:1;min-width:200px;padding:15px;background:#0a3d62;color:#fff;border:none;border-radius:9px;font-size:15px;font-weight:700;font-family:'Times New Roman',Times,serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background 0.2s;}
-.submit-btn:hover{background:#185FA5;}
-.submit-btn:disabled{background:#999;cursor:not-allowed;}
 .pdf-btn{flex:1;min-width:200px;padding:15px;background:#7b2d8b;color:#fff;border:none;border-radius:9px;font-size:15px;font-weight:700;font-family:'Times New Roman',Times,serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background 0.2s;}
 .pdf-btn:hover{background:#5a1f68;}
 .consolidated-btn{flex:1;min-width:200px;padding:15px;background:#e67e22;color:#fff;border:none;border-radius:9px;font-size:15px;font-weight:700;font-family:'Times New Roman',Times,serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background 0.2s;}
@@ -242,12 +239,11 @@ body{font-family:'Times New Roman',Times,serif;background:#f0f4f8;color:#1a1a2e;
 
   <div class="err-msg" id="errMsg">&#9888; Please fill in Department, Semester and Faculty Name before submitting.</div>
   <div class="btn-row">
-   
-    <button class="pdf-btn" onclick="doCurrentPDF()">&#128196; Save as PDF</button>
+    <button class="pdf-btn" onclick="doCurrentPDF()">&#128196; View Entered Data</button>
     <button class="consolidated-btn" onclick="openConsolidatedModal()">&#128202; Consolidated Details</button>
   </div>
   <div class="footer-note">
-    Prepared by: <strong>Gafoor I</strong>, Assistant Professor, Department of Mathematics &nbsp;&nbsp  <br> FYUGP & Time Table Coordinator &nbsp;&nbsp; <br>
+    Prepared by: <strong>Gafoor I</strong>, Assistant Professor, Department of Mathematics &nbsp;&nbsp;  <br> FYUGP & Time Table Coordinator &nbsp;&nbsp; <br>
     NAM College Kallikkandy
   </div>
 </div>
@@ -255,7 +251,7 @@ body{font-family:'Times New Roman',Times,serif;background:#f0f4f8;color:#1a1a2e;
 <div class="success-box" id="successBox">
   <div class="success-top">
     <div class="tick">&#10004;</div>
-    <h3>Successfully Pushed to Time Table Folder!</h3>
+    <h3>Successfully Saved!</h3>
     <p id="successSubtitle"></p>
   </div>
   <div class="success-body">
@@ -281,7 +277,10 @@ body{font-family:'Times New Roman',Times,serif;background:#f0f4f8;color:#1a1a2e;
   </div>
   <div class="view-body">
     <div id="viewTableWrap"></div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem;" class="no-print"><button class="view-pdf-btn" onclick="savePDF()">&#128196; Save as PDF</button><button class="view-pdf-btn" style="background:#0a3d62;" onclick="doSubmitFromView()">&#128193; Push to Time Table Folder</button></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem;" class="no-print">
+      <button class="view-pdf-btn" onclick="savePDF()">&#128196; Save as PDF</button>
+      <button class="view-pdf-btn" style="background:#0a3d62;" onclick="doSubmitFromView()">&#128193; Push to Time Table Folder</button>
+    </div>
   </div>
 </div>
 
@@ -327,7 +326,7 @@ const SEM_LABELS={"1":"Semester 1 (Odd)","2":"Semester 2 (Even)","3":"Semester 3
 const NO_MAJOR_DEPTS=["Statistics","Arabic","Hindi","Malayalam","Urdu","Journalism","Physics","Economics","Sociology","Physical Education","Library Science"];
 
 const FACULTY = {
-  "Arabic"           : ["ABDUL GAFOOR CV"],
+  "Arabic"           : ["MUHAMMAD SHAFEEF T"],
   "Chemistry"        : ["ANUSREE K","NAMSHAD KP","SHABINA K K","DR. MUHAMMAD ISMAYL K M"],
   "Polymer Chemistry": ["ANUSREE K","NAMSHAD KP","SHABINA K K","DR. MUHAMMAD ISMAYL K M"],
   "Commerce"         : ["SAKKARIYA K K","MUSTHAFA KS","ARIF M K","KHADEEJA VAYALIL","DR. ASHRAF E","MUHAMMAD ANZEER K K","MEHANA K V"],
@@ -384,7 +383,11 @@ function populateMathDropdown(uid, courseType){
   const dept = document.getElementById('dept')?.value;
   const select = document.getElementById('mathcourse_'+uid);
   if(!select) return;
-  if(dept !== 'Mathematics'){ select.innerHTML = '<option value="">Manual Entry</option>'; return; }
+  if(dept !== 'Mathematics'){ 
+    select.style.display = 'none';
+    return; 
+  }
+  select.style.display = 'block';
   const list = getMathCourseList(courseType);
   select.innerHTML = '<option value="">— Select Mathematics Course —</option>';
   list.forEach(item=>{ const op = document.createElement('option'); op.value = item; op.textContent = item; select.appendChild(op); });
@@ -415,7 +418,7 @@ function cb(label, courseTypeLabel){
       </div>
     </div>
     <div class="course-fields" id="fields_${uid}">
-      <div class="fg"><label>Mathematics Course List</label><select id="mathcourse_${uid}" onchange="onMathCourseChange('${uid}')" disabled><option value="">Manual Entry</option></select></div>
+      <div class="fg" id="math_wrap_${uid}" style="display:none;"><label>Mathematics Course List</label><select id="mathcourse_${uid}" onchange="onMathCourseChange('${uid}')"><option value="">Manual Entry</option></select></div>
       <div class="fr2">
         <div class="fg"><label>Course Code</label><input type="text" id="code_${uid}" placeholder="e.g. MAT501" disabled/></div>
         <div class="fg"><label>Course Title</label><input type="text" id="title_${uid}" placeholder="Full course title" disabled/></div>
@@ -465,11 +468,22 @@ function toggleOffer(uid, choice){
   const yesBtn = block.querySelector('.toggle-btn.yes');
   const noBtn = block.querySelector('.toggle-btn.no');
   const dept = document.getElementById('dept').value;
+  const mathWrap = document.getElementById('math_wrap_'+uid);
+  
   if(choice==='yes'){
     yesBtn.classList.add('active'); noBtn.classList.remove('active');
     fieldsEl.classList.add('visible');
-    const mathSel = document.getElementById('mathcourse_'+uid);
-    if(mathSel){ mathSel.disabled = false; populateMathDropdown(uid, block.dataset.coursetype); }
+    
+    // Show/Hide Math dropdown based on department
+    if(mathWrap){
+      if(dept === 'Mathematics'){
+        mathWrap.style.display = 'block';
+        populateMathDropdown(uid, block.dataset.coursetype);
+      } else {
+        mathWrap.style.display = 'none';
+      }
+    }
+    
     ['code','title','hrs'].forEach(f=>{ const el=document.getElementById(f+'_'+uid); if(el){el.disabled=false; if(el.value==='NA')el.value='';} });
     const sel = document.getElementById('facsel_'+uid);
     if(sel){ sel.disabled = false; if(dept) sel.innerHTML = getFacultyOptions(dept); }
@@ -560,42 +574,76 @@ function applyDeptVisibility(){
     if(showId){ const w=document.getElementById('s'+s+'_'+showId+'_wrap'); if(w) w.style.display=''; }
   }
   for(let s=1;s<=6;s++){ const mw=document.getElementById('s'+s+'_major_wrap'); if(mw) mw.style.display=NO_MAJOR_DEPTS.includes(dept)?'none':''; }
+  
+  // Update math dropdown visibility for all open course blocks
+  document.querySelectorAll('.course-block .toggle-btn.yes.active').forEach(btn=>{
+    const block = btn.closest('.course-block');
+    if(block){
+      const uid = block.dataset.uid;
+      const mathWrap = document.getElementById('math_wrap_'+uid);
+      if(mathWrap){
+        if(dept === 'Mathematics'){
+          mathWrap.style.display = 'block';
+          populateMathDropdown(uid, block.dataset.coursetype);
+        } else {
+          mathWrap.style.display = 'none';
+        }
+      }
+    }
+  });
 }
 
 function onDeptChange(){ applyDeptVisibility(); updateAllFacultyDropdowns(); triggerDuplicateCheck(); }
-function onSemChange(){ document.querySelectorAll('.sem-sec').forEach(el=>el.classList.remove('active')); triggerDuplicateCheck(); }
+
+function onSemChange(){ 
+  const dept = document.getElementById('dept').value;
+  const sem = document.getElementById('sem').value;
+  
+  document.querySelectorAll('.sem-sec').forEach(el => el.classList.remove('active'));
+  
+  if(dept && sem) {
+    document.getElementById('s'+sem).classList.add('active');
+    triggerDuplicateCheck();
+  }
+}
 
 function triggerDuplicateCheck(){
-  const dept=document.getElementById('dept').value;
-  const sem=document.getElementById('sem').value;
-  const warn=document.getElementById('dupWarning');
-  const checkMsg=document.getElementById('checkingMsg');
-  const submitBtn=document.getElementById('submitBtn');
-  warn.style.display='none';
-  submitBtn.disabled=false;
-  submitBtn.innerHTML='📋 Push to Time Table Folder';
-  if(!dept||!sem) return;
+  const dept = document.getElementById('dept').value;
+  const sem = document.getElementById('sem').value;
+  const warn = document.getElementById('dupWarning');
+  const checkMsg = document.getElementById('checkingMsg');
+  
+  warn.style.display = 'none';
+  
+  if(dept && sem) {
+    document.querySelectorAll('.sem-sec').forEach(el => el.classList.remove('active'));
+    document.getElementById('s'+sem).classList.add('active');
+  }
+  
+  if(!dept || !sem) return;
+  
   clearTimeout(checkTimer);
-  checkTimer=setTimeout(()=>{
-    checkMsg.style.display='block';
-    submitBtn.disabled=true;
-    const semLabel=SEM_LABELS[sem];
-    const url=SHEET_URL+'?action=check&department='+encodeURIComponent(dept)+'&semester='+encodeURIComponent(semLabel);
-    fetch(url).then(r=>r.json()).then(data=>{
-      checkMsg.style.display='none';
-      if(data.exists){
-        document.querySelectorAll('.sem-sec').forEach(el=>el.classList.remove('active'));
-        document.getElementById('dupMsg').innerHTML='⚠️ <strong>'+dept+' — '+semLabel+'</strong> data already exists.<br><br>Click <strong>Edit</strong> to load your existing data and make changes.';
-        warn.style.display='block';
-        submitBtn.disabled=true;
-      } else {
-        warn.style.display='none';
-        submitBtn.disabled=false;
-        document.querySelectorAll('.sem-sec').forEach(el=>el.classList.remove('active'));
-        document.getElementById('s'+sem).classList.add('active');
-      }
-    }).catch(()=>{ checkMsg.style.display='none'; submitBtn.disabled=false; });
-  },600);
+  checkTimer = setTimeout(() => {
+    checkMsg.style.display = 'block';
+    const semLabel = SEM_LABELS[sem];
+    const url = SHEET_URL + '?action=check&department=' + encodeURIComponent(dept) + '&semester=' + encodeURIComponent(semLabel);
+    
+    fetch(url)
+      .then(r => r.json())
+      .then(data => {
+        checkMsg.style.display = 'none';
+        if(data.exists){
+          document.getElementById('s'+sem).classList.remove('active');
+          document.getElementById('dupMsg').innerHTML = '⚠️ <strong>'+dept+' — '+semLabel+'</strong> data already exists.<br><br>Click <strong>Edit</strong> to load your existing data and make changes.';
+          warn.style.display = 'block';
+        } else {
+          warn.style.display = 'none';
+        }
+      })
+      .catch(() => {
+        checkMsg.style.display = 'none';
+      });
+  }, 300);
 }
 
 async function loadEditMode(){
@@ -611,8 +659,6 @@ async function loadEditMode(){
     const rows=data.rows||[];
     editMode=true;
     document.getElementById('dupWarning').style.display='none';
-    document.getElementById('submitBtn').disabled=false;
-    document.getElementById('submitBtn').innerHTML='✎ Update Time Table Folder';
     resetAllBlocks();
     document.querySelectorAll('.sem-sec').forEach(el=>el.classList.remove('active'));
     document.getElementById('s'+sem).classList.add('active');
@@ -674,7 +720,8 @@ async function doSubmit(){
   currentFacName=facName;
   const rows=collectRows();
   if(rows.length===0){alert('No course data found.'); return;}
-  const btn=document.getElementById('submitBtn');
+  
+  const btn = event.target;
   btn.disabled=true; btn.innerHTML='⏳ Saving...';
   try{
     if(editMode){ await fetch(SHEET_URL+'?action=delete&department='+encodeURIComponent(dept)+'&semester='+encodeURIComponent(SEM_LABELS[sem])); }
@@ -762,8 +809,6 @@ function doReset(){
   document.getElementById('dupWarning').style.display='none';
   document.getElementById('checkingMsg').style.display='none';
   editMode=false;
-  const btn=document.getElementById('submitBtn');
-  btn.disabled=false; btn.innerHTML='📋 Push to Time Table Folder';
   document.querySelectorAll('.sem-sec').forEach(el=>el.classList.remove('active'));
   resetAllBlocks();
   for(let s=1;s<=2;s++){ ['aec_eng','arab','hin','mal','urd'].forEach(id=>{ const w=document.getElementById('s'+s+'_'+id+'_wrap'); if(w) w.style.display='none'; }); }
@@ -786,7 +831,6 @@ async function generateDeptWiseReport() {
   document.body.style.cursor = 'wait';
   
   try {
-    // Fetch data for each semester
     const allRows = [];
     const semesters = ["Semester 1 (Odd)", "Semester 2 (Even)", "Semester 3 (Odd)", "Semester 4 (Even)", "Semester 5 (Odd)", "Semester 6 (Even)"];
     const semesterNumbers = { "Semester 1 (Odd)":1, "Semester 2 (Even)":2, "Semester 3 (Odd)":3, "Semester 4 (Even)":4, "Semester 5 (Odd)":5, "Semester 6 (Even)":6 };
@@ -878,7 +922,7 @@ async function generateDeptWiseReport() {
             <td>${escapeHtml(row.courseTitle || '')}</td>
             <td style="text-align:center">${escapeHtml(row.hoursPerWeek || '')}</td>
             <td>${escapeHtml(row.assignedFaculty || '')}</td>
-           </tr>`;
+            </tr>`;
         });
         html += `</tbody></table>`;
       }
@@ -898,13 +942,12 @@ async function generateDeptWiseReport() {
     </body>
     </html>`;
     
-    // Create a blob and open in new tab
     const blob = new Blob([html], {type: 'text/html'});
     const url = URL.createObjectURL(blob);
     const win = window.open(url, '_blank');
     
     if (!win || win.closed || typeof win.closed === 'undefined') {
-      alert('⚠️ Popup was blocked by your browser.\n\nPlease allow popups for this site and try again.\n\nAlternatively, you can use the browser\'s print function (Ctrl+P) on this page.');
+      alert('⚠️ Popup was blocked by your browser.\n\nPlease allow popups for this site and try again.');
     } else {
       setTimeout(function() {
         win.print();
@@ -913,7 +956,7 @@ async function generateDeptWiseReport() {
     }
     
   } catch(err) { 
-    alert('Error fetching data: ' + err.message + '\n\nPlease check your internet connection and try again.'); 
+    alert('Error fetching data: ' + err.message); 
   } finally { 
     document.body.style.cursor = 'default'; 
   }
